@@ -10,6 +10,7 @@ console.log(reverseSentence("we like coding!"));
 
 
 
+
 //Mitask------M
 function getSquareNumbers(arr: number[]): { number: number; square: number }[] {
   return arr.map((num: number) => ({
