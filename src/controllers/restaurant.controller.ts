@@ -1,7 +1,7 @@
 // CONTROLLERLARNI doim OBJECTlar orqalik quramiz
 import { Request, Response } from "express";
 import {T} from "../libs/types/comman";
-
+import MemberService from "../models//Member.service";
 
 const restaurantController: T = {};
 restaurantController.goHome = (req: Request, res: Response) => {
