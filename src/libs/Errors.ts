@@ -11,12 +11,15 @@ export enum HttpCode {
     INTERNAL_SERVER_ERROR = 500, // Server error
 
 }
+
+
 export enum Message {
  SOMETHING_WENT_WRONG = "Something went wrong!",
  NO_DATA_FOUND = "No data is found!",
 CREATE_FAILED = "Create is failed!",
 UPDATE_FAILED = "update is failed!",
 }
+
 
 class Errors extends Error {
     public code: HttpCode;

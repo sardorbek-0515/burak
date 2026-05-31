@@ -1,10 +1,11 @@
  /* Project Standards;
+ 
    - Logging standards 
    -Naming standards:
       function, method, variable => CAMEL
       class => PASCAL
       folder => KEBAB
-      css => SNAKE
+      css => SNAKE                        button_style
   - Error handling
 
 
