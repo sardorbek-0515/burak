@@ -103,4 +103,4 @@ function calculateSumOfNumbers(arr: any[]): number {
 }
 
 
-console.log(calculateSumOfNumbers([10, "10", {son: 10}, true, 35])); 
+console.log(calculateSumOfNumbers([10, "10", {son: 10},  true, 35])); //
