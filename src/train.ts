@@ -7,12 +7,33 @@
       folder, file => KEBAB
       css => SNAKE                        button_style
   - Error handling
-
-
-
-
-
  */         
+
+
+  /** Bruakda traditional, rest dan use qilamiz*  
+   
+   (1) Traditional Api--  Har bir funksiyaga alohida endpoint (URL) bo‘ladi.
+   /users → foydalanuvchilar ro‘yxati 
+  /users/1 → bitta foydalanuvchi
+
+(2) Rest Api Traditional API’ning rivojlangan ko‘rinishi.
+
+HTTP metodlari ishlatiladi:
+
+GET → ma’lumot olish
+
+POST → yangi ma’lumot qo‘shish
+
+PUT/PATCH → ma’lumotni yangilash
+
+DELETE → o‘chirish
+
+JSON formatida javob qaytaradi.
+
+
+  (3)  GraphQL Api -  zamonaviy, moslashuvchan, faqat kerakli ma’lumotni qaytaradi.
+   ... 
+   */
                    
                    
                    
@@ -65,3 +86,21 @@ console.log(palindromCheck("dad"));   // true
 console.log(palindromCheck("son"));   // false
 
 
+/////////////////////// Mit ask---- O
+//O-TASK
+//Shunday function yozing, u har xil valuelardan iborat array qabul qilsin va array ichidagi sonlar yigindisini hisoblab chiqqan javobni qaytarsin. MASALAN: calculateSumOfNumbers([10, "10", {son: 10}, true, 35]) return 45.
+
+function calculateSumOfNumbers(arr: any[]): number {
+  let sum = 0;
+
+  for (const item of arr) {
+    if (typeof item === "number") {
+      sum += item;
+    }
+  }
+
+  return sum;
+}
+
+
+console.log(calculateSumOfNumbers([10, "10", {son: 10}, true, 35])); 

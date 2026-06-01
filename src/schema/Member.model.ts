@@ -5,7 +5,8 @@ import { MemberStatus, MemberType } from "../libs/enums/member.enum";
 
 // ENUM-- aniq belgilangan qiymatlarnigina qabul qilish un ishlatiladigan type hissoblanadi
 
-const memberSchema = new Schema ({   // memberschema object
+ const memberSchema = new Schema ({   // memberschema object
+
 memberType: {
 type: String,
 enum: MemberType,
@@ -53,8 +54,7 @@ memberImage: {
 memberPoints: {
     type: Number,
     default: 0,
-},
-
+ },
 }, {timestamps: true}   // qachon updatedAt, createdAtni aytadi
 );
 
