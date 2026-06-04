@@ -104,3 +104,21 @@ function calculateSumOfNumbers(arr: any[]): number {
 
 
 console.log(calculateSumOfNumbers([10, "10", {son: 10},  true, 35])); //
+
+///////////////
+/* P-TASK
+Shunday function yozing, u object qabul qilsin
+va arrayni object arrayga otkazib arrayni qaytarsin.
+MASALAN: objectToArray({a: 10, b: 20}) return [["a", 10], ["b", 20]].
+*/
+function objectToArray(params: { [key: string]: any }) {
+  let result = [];
+  for (let key in params) {
+    result.push([key, params[key]]);
+  }
+  return result;
+}
+const result1 = objectToArray({ a: 10, b: 20 });
+console.log(result1);
+const result2 = objectToArray({ CC: 82, HM: 993 });
+console.log(result2);

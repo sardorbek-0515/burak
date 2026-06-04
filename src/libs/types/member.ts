@@ -1,32 +1,34 @@
 import { MemberStatus, MemberType } from "../enums/member.enum";
-import { ObjectId } from "mongoose";
-// import { ObjectId } from "mongoose"
-
 
 export interface Member {
-  _id: ObjectId;
-  memberType: string;
-  memberStatus: string;
-  memberNick: string;
-  memberPhone: string;
-  memberPassword: string;
-  memberPoints: number;
-  memberAdress?: string;
-  memberDesc?: string;
-  memberImage?: string;
-  createdAt: Date;
-  updatedAt: Date;
+    memberType: MemberType;
+    memberStatus: MemberStatus;
+    memberNick: string;
+    memberPhone: string;
+    memberPassword?: string;
+    memberAddress?: string;
+    memberdesc?: string;
+    memberImage?: string;
+    memberPoints: number;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
-
 export interface MemberInput {
-    memberType?:MemberType;
+    memberType?: MemberType;
     memberStatus?: MemberStatus;
     memberNick: string;
     memberPhone: string;
     memberPassword: string;
-    memberAdress?: string;
-    memberDesc?: string;
+    memberAddress?: string;
+    memberdesc?: string;
     memberImage?: string;
     memberPoints?: number;
+}
+
+
+// objectning key qismini string qilinsa json form bo'larkan..
+export interface LoginInput {
+    memberNick: string;
+    memberPassword: string;
 }

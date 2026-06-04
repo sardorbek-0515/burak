@@ -4,7 +4,8 @@ dotenv.config();
 import mongoose from 'mongoose';
 import app from "./app";
 
-mongoose.connect(process.env.MONGO_URL as string, {})
+mongoose.set('strictQuery', true); // Avval sozla 🔧
+mongoose.connect(process.env.MONGO_URL as string, {}) // Keyin ulat 🔌
 .then((data) => {
     console.log("MongoDB connection succeed")
     const PORT = process.env.PORT ?? 3005 ;

@@ -1,61 +1,53 @@
-import mongoose, {Schema} from "mongoose";
+// schema first & code based --> how to create schema
+import mongoose, { Schema } from "mongoose";
 import { MemberStatus, MemberType } from "../libs/enums/member.enum";
-// Schemani 2 xil usulda qurish mumkin
-// 1-Schema uzidan    2- code first , code based usuli va biz 2-dan foydalanamiz
+const memberSchema = new Schema({
+    memberType: {
+        type: String,
+        enum: MemberType,
+        default: MemberType.USER
+    },
 
-// ENUM-- aniq belgilangan qiymatlarnigina qabul qilish un ishlatiladigan type hissoblanadi
+    memberStatus: {
+        type: String,
+        enum: MemberStatus,
+        default: MemberStatus.ACTIVE
+    },
 
- const memberSchema = new Schema ({   // memberschema object
+    memberNick: {
+        type: String,
+        index: { unique: true, sparse: true },
+        required: true,
+    },
 
-memberType: {
-type: String,
-enum: MemberType,
-default: MemberType.USER
-},
+    memberPhone: {
+        type: String,
+        index: { unique: true, sparse: true },
+        required: true,
+    },
 
-memberStatus: {
-    type: String,
-    enum: MemberStatus,
-    default: MemberStatus.ACTIVE
-    
-},
+    memberPassword: {
+        type: String,
+        select: false,
+        required: true,
+    },
 
-memberNick: {
-    type: String,
-    index: {unique: true, sparse: true},
-    required: true
+    memberAddress: {
+        type: String,
+    },
 
-},
+    memberDesc: {
+        type: String,
+    },
 
-memberPhone: {
-    type: String,
-    index: { unique: true, sparse: true},
-    required: true
-},
+    memberImage: {
+        type: String,
+    },
 
-memberPassword: {
-    type: String,
-    select: false,
-    required: true
-},
+    memberPoints: {
+        type: Number,
+        default: 0,
+    },
+}, { timestamps: true });  // createdAt , updatedAt 
 
-memberAdress: {
-    type: String,
-},
-
-memberDesc: {
-    type: String,
-},
-
-memberImage: {
-    type: String,
-},
-
-memberPoints: {
-    type: Number,
-    default: 0,
- },
-}, {timestamps: true}   // qachon updatedAt, createdAtni aytadi
-);
-
-export default mongoose.model("Member", memberSchema)
+export default mongoose.model("Member", memberSchema);
