@@ -106,8 +106,8 @@ function calculateSumOfNumbers(arr: any[]): number {
   return sum;
 }
 
-
 console.log(calculateSumOfNumbers([10, "10", {son: 10},  true, 35])); //
+
 
 ///////////////
 /* P-TASK
@@ -126,3 +126,14 @@ const result1 = objectToArray({ a: 10, b: 20 });
 console.log(result1);
 const result2 = objectToArray({ CC: 82, HM: 993 });
 console.log(result2);
+
+////////////////
+// Q-TASK
+//Q-TASKShunday function yozing, u 2 ta parametrgga ega bolib birinchisi object, ikkinchisi string. Agar string parametr objectni propertysi bolsa true bolmasa false qaytarsin. MASALAN: hasProperty({name: "BMW", model: "M3"}, "model") return true; hasProperty({name: "BMW", model: "M3"}, "year") return false.
+function hasProperty(obj: object, key: string): boolean {
+    return key in obj;
+}
+
+// Test
+console.log(hasProperty({name: "BMW", model: "M3"}, "model")); // true
+console.log(hasProperty({name: "BMW", model: "M3"}, "year"));  // false
