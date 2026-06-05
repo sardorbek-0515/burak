@@ -12,7 +12,7 @@ restaurantController.goHome = (req: Request, res: Response) => {
     try {
         console.log("goHome")
         // send, json, redirect, end, render
-        res.send("Home page");
+        res.render("home");
     } catch (err) {
         console.log("Error, goHome:", err)
     }
@@ -21,7 +21,7 @@ restaurantController.goHome = (req: Request, res: Response) => {
 restaurantController.getSignup = (req: Request, res: Response) => {
     try {
         console.log("getSignup")
-        res.send("Signup page");
+        res.render("signup");
     } catch (err) {
         console.log("Error, getSignup:", err)
     }
@@ -31,7 +31,7 @@ restaurantController.getSignup = (req: Request, res: Response) => {
 restaurantController.getLogin = (req: Request, res: Response) => {
     try {
         console.log("getLogin")
-        res.send("Login page");
+        res.render("login");
     } catch (err) {
         console.log("Error, getLogin:", err)
     }
