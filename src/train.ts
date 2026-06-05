@@ -35,7 +35,11 @@ JSON formatida javob qaytaradi.
    ... 
    */
                    
-                   
+    /*
+     1)Traditional Frontend Development (FD) => SRR (admin) => EJS
+     2) Modern Frontend Development (FD) => SPA (User' applacation) => REACT
+
+    */               
                    
                    
                    
