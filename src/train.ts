@@ -41,7 +41,22 @@ JSON formatida javob qaytaradi.
 
     */               
                    
-                   
+      /**
+       request join 
+       selfdestroy
+
+       */
+     
+
+
+
+
+
+
+
+
+
+
                    
                    
                    
@@ -136,3 +151,18 @@ function hasProperty(obj: object, key: string): boolean {
 
 console.log(hasProperty({name: "BMW", model: "M3"}, "model")); // true
 console.log(hasProperty({name: "BMW", model: "M3"}, "year"));  // false
+
+
+///////////// /R-TASK
+
+//R-TASK
+
+//Shunday function yozing, u string parametrga ega bolsin. String "1+2" holatda pass qilinganda string ichidagi sonlar yigindisini number holatda qaytarsin. MASALAN: calculate("1+3") return 4.
+
+function calculate(expression: string): number {
+  const numbers = expression.split('+');
+  return numbers.reduce((sum, num) => sum + Number(num), 0);
+}
+
+console.log(calculate("1+3"));   // Natija: 4
+
