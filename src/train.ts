@@ -155,7 +155,7 @@ console.log(hasProperty({name: "BMW", model: "M3"}, "year"));  // false
 
 ///////////// /R-TASK
 
-//R-TASK
+/// R-TASK
 
 //Shunday function yozing, u string parametrga ega bolsin. String "1+2" holatda pass qilinganda string ichidagi sonlar yigindisini number holatda qaytarsin. MASALAN: calculate("1+3") return 4.
 
