@@ -1,6 +1,7 @@
 import express from "express";
 const routerAdmin = express.Router();
 import restaurantController from "./controllers/restaurant.controller";
+import productController from "./controllers/product.controller";
 
 //get qandaydur ma lumot olish uchun ishlatiladi
 // post- mutetion malumotni ozgartirish uchun 
@@ -19,7 +20,10 @@ routerAdmin
 .get("/signup", restaurantController.getSignup)
 routerAdmin.get("/check-me", restaurantController.checkAuthSession);
 
-/** Product */
+/** Product */ // MVS
+routerAdmin.get("/product/all", productController.getAllProducts);
+routerAdmin.post(".product/create", productController.createNewProduct);
+routerAdmin.post(".product/:id", productController.updateChosenProduct);
 //**User */
 
 export default routerAdmin;
