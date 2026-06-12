@@ -12,7 +12,8 @@
 
   /** Bruakda traditional, rest dan use qilamiz*  
    
-   (1) Traditional Api--  Har bir funksiyaga alohida endpoint (URL) bo‘ladi.
+   (1)Request:
+    Traditional Api--  Har bir funksiyaga alohida endpoint (URL) bo‘ladi.
    /users → foydalanuvchilar ro‘yxati 
   /users/1 → bitta foydalanuvchi
 
@@ -35,19 +36,24 @@ JSON formatida javob qaytaradi.
    ... 
    */
                    
-    /*
+    /* Frontent development:
      1)Traditional Frontend Development (FD) => SRR (admin) => EJS
      2) Modern Frontend Development (FD) => SPA (User' applacation) => REACT
 
     */               
                    
-      /**
-       request join 
-       selfdestroy
-
-       */
+/** Cookies:
+request join 
+selfdestroy
+ */
      
+/** Validation:
+    Frontend validation
+    Backend validation
+    Database validation
+  
 
+ */
 
 
 
@@ -166,3 +172,17 @@ function calculate(expression: string): number {
 
 console.log(calculate("1+3"));   // Natija: 4
 
+/////S-TASK
+
+//Shunday function yozing, u numberlardan tashkil topgan array qabul qilsin va osha numberlar orasidagi tushib qolgan sonni topib uni return qilsin. MASALAN: missingNumber([3, 0, 1]) return 2.
+
+
+function missingNumber(nums: number[]): number {
+    const n = nums.length;
+    const expectedSum = (n * (n + 1)) / 2;
+    const actualSum = nums.reduce((sum, num) => sum + num, 0);
+
+    return expectedSum - actualSum;
+}
+
+console.log(missingNumber([3, 0, 1])); 
