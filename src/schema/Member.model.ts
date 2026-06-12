@@ -5,7 +5,7 @@ const memberSchema = new Schema({
     memberType: {
         type: String,
         enum: MemberType,
-        default: MemberType.USER,
+        default: MemberType.RESTAURANT,
     },
 
     memberStatus: {

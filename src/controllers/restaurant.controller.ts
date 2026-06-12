@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { T } from "../libs/types/comman";
 import MemberService from "../models/Member.service";
 import { AdminRequest, LoginInput, MemberInput } from "../libs/types/member";
@@ -59,7 +59,7 @@ restaurantController.processSignup = async (req: AdminRequest, res: Response) =>
     } catch (err) {
         console.log("Error, processSignup:", err)
         const message = err instanceof Errors ? err. message : Message.SOMETHING_WENT_WRONG
-        res.send(`<script> alert("${message}"); window,location.replace('admin/signup') </script>`)
+        res.send(`<script> alert("${message}"); window.location.replace('admin/signup') </script>`)
         
     }
 };
@@ -81,7 +81,7 @@ restaurantController.processLogin = async (req: AdminRequest, res: Response) => 
     } catch (err) {
         console.log("Error, processLogin:", err)
         const message = err instanceof Errors ? err. message : Message.SOMETHING_WENT_WRONG
-        res.send(`<script> alert("${message}"); window,location.replace('admin/login') </script>`)
+        res.send(`<script> alert("${message}"); window.location.replace('admin/login') </script>`)
     }
 };
 
@@ -109,6 +109,18 @@ restaurantController.checkAuthSession = async (req: AdminRequest, res: Response)
         res.send(err);
     }
 };
-
+restaurantController.verifyRestaurant = (
+  req: AdminRequest, 
+  res: Response, 
+  next: NextFunction
+) => {
+  if (req.session?.member?.memberType === MemberType.RESTAURANT) {
+    req.member = req.session.member;
+    next();
+  } else {
+    const message = Message.NOT_AUTHENTICATED;
+    res.send(`<script> alert("${message}"); window.location.replace('admin/login'); </script>`);    
+  }
+};
 
 export default restaurantController;
