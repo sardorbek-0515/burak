@@ -186,3 +186,29 @@ function missingNumber(nums: number[]): number {
 }
 
 console.log(missingNumber([3, 0, 1])); 
+
+////////////////  T-TASK
+
+//Shunday function yozing, u sonlardan tashkil topgan 2 ta array qabul qilsin va ikkala arraydagi sonlarni tartiblab bir arrayda qaytarsin. MASALAN: mergeSortedArrays([0,3,4,31], [4,6,30]) return [0,3,4,4,6,30,31].
+
+function mergeSortedArrays(arr1: number[], arr2: number[]): number[] {
+  let i: number = 0;
+  let j: number = 0;
+  const result: number[] = [];
+
+  while (i < arr1.length && j < arr2.length) {
+    if (arr1[i] < arr2[j]) {
+      result.push(arr1[i]);
+      i++;
+    } else {
+      result.push(arr2[j]);
+      j++;
+    }
+  }
+
+  result.push(...arr1.slice(i));
+  result.push(...arr2.slice(j));
+
+  return result;
+}
+console.log(mergeSortedArrays([0, 3, 4, 31], [4, 6, 30]));

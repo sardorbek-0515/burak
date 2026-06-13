@@ -15,6 +15,16 @@ class ProductServer {
 
   /**  SRR */
 
+ public async getAllProducts(): Promise<Product[]> {
+    const result = await this.productModel.find().exec();
+    if(!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+    
+    return result as unknown as Product[];
+ }
+
+
+
+
   public async createNewProduct(input: ProductInput): Promise<Product> {
     try {
       return await this.productModel.create(input) as unknown as Product;
@@ -24,11 +34,11 @@ class ProductServer {
     }
   }
 
- // ✅ To'g'ri
-public async updateChosenProduct(
+ 
+ public async updateChosenProduct(
     id: string,
     input: ProductInput
-): Promise<Product> {
+ ): Promise<Product> {
     const objId = shapeIntoMongooseObjectId(id);  // yangi o'zgaruvchi
     const result = await this.productModel.findOneAndUpdate(
         { _id: objId },   // objId ishlatiladi
@@ -38,7 +48,7 @@ public async updateChosenProduct(
     if(!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED);
     
     return result as unknown as Product;
-}
+ }
 }
 
 export default ProductServer;
