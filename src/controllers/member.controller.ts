@@ -4,6 +4,7 @@ import { MemberType } from "../libs/enums/member.enum";
 import MemberService from "../models/Member.service";
 import { LoginInput, Member, MemberInput } from "../libs/types/member";
 import Error from "../libs/Errors"
+import Errors from "../libs/Errors";
 
 const memberService = new MemberService();
 
@@ -19,9 +20,9 @@ memberController.signup = async (req: Request, res: Response) => {
 
       res.json({member: result});
     } catch (err) {
-        console.log("Error, signup:", err);
-        if (err instanceof Error) res.status(err.code).json(err)
-        else res .status(Error.standard.code).json(Error.standard);
+        console.log("Errors, signup:", err);
+        if (err instanceof Errors) res.status(err.code).json(err)
+        else res .status(Errors.standard.code).json(Errors.standard);
 
     }
 };

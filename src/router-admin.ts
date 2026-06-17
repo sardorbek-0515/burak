@@ -43,8 +43,16 @@ routerAdmin.post(
     productController.updateChosenProduct
 );
 
-/** User member */ //bizni restuarantes userlarni malumotini ozgartirish
-routerAdmin.get("/user/all", restaurantController.verifyRestaurant, restaurantController.getUsers)
+/** User member */ //bizni restuarantes userlarni malumotini ozgartirish!
+routerAdmin.get("/user/all", 
+  restaurantController.verifyRestaurant, 
+  restaurantController.getUsers
+);
+routerAdmin.post("/user/edit", 
+  restaurantController.verifyRestaurant, 
+  restaurantController.updateChosenUser
+);
+
 
 
 
