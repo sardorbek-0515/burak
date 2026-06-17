@@ -9,12 +9,14 @@ import { AdminRequest } from "../libs/types/member";
 const productService = new ProductServer
 
 //getAllProducts
-const productController: T = {};
+const productController: T = {}; //bosh object yaratadi
 /**  SPA */
 
 /**  SRR */
 //adminka loyhasi uchun
+
 //getAllProducts
+//Define
 productController.getAllProducts = async (req: Request, res: Response) => {
     try {
         console.log("getAllProducts")

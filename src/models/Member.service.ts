@@ -11,7 +11,9 @@ class MemberService {
         this.memberModel = MemberModel;
     }
 
-    /** SPA */  // REACT
+    /** SPA */  // React 
+
+    //signup
     public async signup(input: MemberInput): Promise<Member> {
         const salt = await bcrypt.genSalt();
         input.memberPassword = await bcrypt.hash(input.memberPassword, salt);
@@ -26,7 +28,9 @@ class MemberService {
             throw new Errors(HttpCode.BAD_REQUEST, Message.USED_NICK_PHONE);// xatolik shu nickdan, phondan use bolsa
         }
     }
-
+  
+    //Define
+    //login
     public async login(input: LoginInput): Promise<Member> {
         //TODO: Consider member status later
         const member = await this.memberModel
@@ -49,11 +53,13 @@ class MemberService {
     }
 
     /** SSR */
+
+    //processSignup
     public async processSignup(input: MemberInput): Promise<Member> {
-        // const exist = await this.memberModel
-        //     .findOne({ memberType: MemberType.RESTAURANT })
-        //     .exec();
-        // if (exist) throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
+        const exist = await this.memberModel
+            .findOne({ memberType: MemberType.RESTAURANT })
+            .exec();
+        if (exist) throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
 
         const salt = await bcrypt.genSalt();
         input.memberPassword = await bcrypt.hash(input.memberPassword, salt);
@@ -65,7 +71,9 @@ class MemberService {
             throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
         }
     }
+    
 
+    //processLogin
     public async processLogin(input: LoginInput): Promise<Member> {
         const member = await this.memberModel
             .findOne(
@@ -82,6 +90,20 @@ class MemberService {
 
         return await this.memberModel.findById(member._id).exec() as Member;
     }
+
+    //getUsers  /adminka memberlarni malumotini ozgartirish 
+    // define, traktor yasash
+    public async getUsers(): Promise<Member[]> {
+     const result = await this.memberModel
+     .find({ memberType: MemberType.USER })
+     .exec();
+     if(!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+
+      return result as unknown as Member[];
+       
+    }
+ 
 }
+
 
 export default MemberService;

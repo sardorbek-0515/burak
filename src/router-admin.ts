@@ -23,26 +23,29 @@ routerAdmin
 routerAdmin.get("/logout", restaurantController.logout);
 routerAdmin.get("/check-me", restaurantController.checkAuthSession);
 
-/** Product */ // MVS
+/** Product */ // MVS /call
 routerAdmin.get(
 "/product/all", 
-restaurantController. verifyRestaurant, 
+restaurantController. verifyRestaurant, //AUTHORIZATION
 productController.getAllProducts
 );
 
 routerAdmin.post(
    "/product/create",
-    restaurantController. verifyRestaurant, 
+    restaurantController. verifyRestaurant,  //AUTHORIZATION req. +member
     // uploadProductImage.single("productImages"),
-    makeUploader("products").array("productImages", 5),
-    productController.createNewProduct
+    makeUploader("products").array("productImages", 5),// UPLOADER req.files
+    productController.createNewProduct // req.member & req.files
 );
 routerAdmin.post(
     "/product/:id",
-    restaurantController. verifyRestaurant, 
+    restaurantController. verifyRestaurant, //typni tekshirish 
     productController.updateChosenProduct
 );
 
-//**User */
+/** User member */ //bizni restuarantes userlarni malumotini ozgartirish
+routerAdmin.get("/user/all", restaurantController.verifyRestaurant, restaurantController.getUsers)
+
+
 
 export default routerAdmin;

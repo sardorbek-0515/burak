@@ -30,7 +30,7 @@ restaurantController.getSignup = (req: Request, res: Response) => {
          res.redirect("/admin");
     }
 };
-
+//call
 //getLogin
 restaurantController.getLogin = (req: Request, res: Response) => {
     try {
@@ -69,7 +69,7 @@ restaurantController.processSignup = async (req: AdminRequest, res: Response) =>
     }
 };
 
-//processLogin
+//processLogin //// req. +session > TAMG'A 
 restaurantController.processLogin = async (req: AdminRequest, res: Response) => {
     try {
         console.log("processLogin")
@@ -90,10 +90,12 @@ restaurantController.processLogin = async (req: AdminRequest, res: Response) => 
     }
 };
 
+
+
 //logout
 restaurantController.logout = async (req: AdminRequest, res: Response) => {
     try {
-        console.log("logout")
+        console.log("logout");
     req.session.destroy(function(){
         res.redirect("/admin");
     });
@@ -102,6 +104,38 @@ restaurantController.logout = async (req: AdminRequest, res: Response) => {
          res.redirect("/admin");
     }
 };
+
+
+
+//getUsers
+// define     /adminka memberlarni malumotini ozgartirish
+restaurantController.getUsers = async (req: Request, res: Response) => {
+    try {
+        console.log("getUsers");
+        const result = await memberService.getUsers(); //call = Traktorni haydash(2)
+        console.log("result", result);
+
+        res.render("users", { users: result}); //user object
+    } catch (err) {
+        console.log("Error, getUsers:", err);
+        res.redirect("/admin/login"); //xatolik bolganda loginga yubor
+    }
+};
+
+
+//updateChosenUser
+//define
+restaurantController.updateChosenUser = (req: Request, res: Response) => {
+    try {
+        console.log("updateChosenUser");
+        res.render("login");
+    } catch (err) {
+        console.log("Error, updateChosenUser:", err);
+        res.redirect("/admin");
+    }
+};
+
+
 //checkAuthSession
 restaurantController.checkAuthSession = async (req: AdminRequest, res: Response) => {
     try {
@@ -114,6 +148,7 @@ restaurantController.checkAuthSession = async (req: AdminRequest, res: Response)
         res.send(err);
     }
 };
+//verifyRestaurant
 restaurantController.verifyRestaurant = (
   req: AdminRequest, 
   res: Response, 
@@ -127,5 +162,6 @@ restaurantController.verifyRestaurant = (
     res.send(`<script> alert("${message}"); window.location.replace('admin/login'); </script>`);    
   }
 };
+
 
 export default restaurantController;
