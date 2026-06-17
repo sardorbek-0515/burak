@@ -212,3 +212,14 @@ function mergeSortedArrays(arr1: number[], arr2: number[]): number[] {
   return result;
 }
 console.log(mergeSortedArrays([0, 3, 4, 31], [4, 6, 30]));
+
+/////U-TASKShunday 
+// function yozing, uni number parametri bolsin va 0 dan berilgan parametrgacha bolgan oraliqdagi faqat toq sonlar nechtaligini return qilsin. MASALAN: sumOdds(9) return 4; sumOdds(11) return 5.
+function sumOdds(n: number): number {
+    let count = 0;
+    for (let i = 1; i <= n; i++) {
+        if (i % 2 !== 0) count++;
+    }
+    return count;
+}
+console.log(sumOdds(9));
