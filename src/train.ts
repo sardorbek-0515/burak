@@ -1,5 +1,4 @@
  /* Project Standards;
-
    - Logging standards 
    -Naming standards:
       function, method, variable => CAMEL
@@ -7,10 +6,10 @@
       folder, file => KEBAB
       css => SNAKE                        button_style
   - Error handling
- */         
+*/         
 
 
-  /** Bruakda traditional, rest dan use qilamiz*  
+/** Bruakda traditional, rest dan use qilamiz*  
    
    (1)Request:
     Traditional Api--  Har bir funksiyaga alohida endpoint (URL) bo‘ladi.
@@ -32,43 +31,32 @@ DELETE → o‘chirish
 JSON formatida javob qaytaradi.
 
 
-
-  (3)  GraphQL Api -  zamonaviy, moslashuvchan, faqat kerakli ma’lumotni qaytaradi.
+(3)  GraphQL Api -  zamonaviy, moslashuvchan, faqat kerakli ma’lumotni qaytaradi.
    ... 
-   */
+*/
                    
-    /* Frontent development:
-     1)Traditional Frontend Development (FD) => SRR (admin) => EJS
-     2) Modern Frontend Development (FD) => SPA (User' applacation) => REACT
+/* Frontent development:
+ 1)Traditional Frontend Development (FD) => SRR (admin) => EJS
+ 2) Modern Frontend Development (FD) => SPA (User' applacation) => REACT
 
-    */               
+*/               
       
      
-  /** Cookies:
+/* Cookies:
   request join 
   selfdestroy
- */
+*/
      
+/* Validation:
+  Frontend validation
+  Backend validation
+  Database validation
+*/
 
 
-    /** Validation:
-    Frontend validation
-    Backend validation
-    Database validation
-  
-
- */
-
-
-
-                   
-                   
-                   
-                   
-                   
-                   
-                   
-                   //Mitask------L
+///////////////////////////////////////////////////////////////////////////////////               
+                         
+//Mitask------L
 function reverseSentence(sentence: string): string {
   return sentence
     .split(" ") 
