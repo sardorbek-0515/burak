@@ -96,7 +96,7 @@ class MemberService {
     // define, traktor yasash
     public async getUsers(): Promise<Member[]> {
      const result = await this.memberModel
-     .find({ memberType: MemberType.USER })
+     .find({ memberType: MemberType.USER })//member type qiymati user bolganini izla
      .exec();
      if(!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
 

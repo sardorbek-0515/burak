@@ -32,6 +32,7 @@ DELETE → o‘chirish
 JSON formatida javob qaytaradi.
 
 
+
   (3)  GraphQL Api -  zamonaviy, moslashuvchan, faqat kerakli ma’lumotni qaytaradi.
    ... 
    */
@@ -41,25 +42,22 @@ JSON formatida javob qaytaradi.
      2) Modern Frontend Development (FD) => SPA (User' applacation) => REACT
 
     */               
-                   
-/** Cookies:
-request join 
-selfdestroy
+      
+     
+  /** Cookies:
+  request join 
+  selfdestroy
  */
      
-/** Validation:
+
+
+    /** Validation:
     Frontend validation
     Backend validation
     Database validation
   
 
  */
-
-
-
-
-
-
 
 
 

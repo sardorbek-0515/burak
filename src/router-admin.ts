@@ -44,11 +44,13 @@ routerAdmin.post(
 );
 
 /** User member */ //bizni restuarantes userlarni malumotini ozgartirish!
-routerAdmin.get("/user/all", 
+routerAdmin.get(
+  "/user/all", 
   restaurantController.verifyRestaurant, 
   restaurantController.getUsers
 );
-routerAdmin.post("/user/edit", 
+routerAdmin.post(
+  "/user/edit", 
   restaurantController.verifyRestaurant, 
   restaurantController.updateChosenUser
 );
