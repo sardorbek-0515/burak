@@ -1,12 +1,12 @@
- /* Project Standards;
-   - Logging standards 
-   -Naming standards:
-      function, method, variable => CAMEL
-      class => PASCAL
-      folder, file => KEBAB
-      css => SNAKE                        button_style
-  - Error handling
-*/         
+/* Project Standards;
+  - Logging standards 
+  -Naming standards:
+     function, method, variable => CAMEL
+     class => PASCAL
+     folder, file => KEBAB
+     css => SNAKE                        button_style
+ - Error handling
+*/
 
 
 /** Bruakda traditional, rest dan use qilamiz*  
@@ -34,19 +34,19 @@ JSON formatida javob qaytaradi.
 (3)  GraphQL Api -  zamonaviy, moslashuvchan, faqat kerakli ma’lumotni qaytaradi.
    ... 
 */
-                   
+
 /* Frontent development:
  1)Traditional Frontend Development (FD) => SRR (admin) => EJS
  2) Modern Frontend Development (FD) => SPA (User' applacation) => REACT
 
-*/               
-      
-     
+*/
+
+
 /* Cookies:
   request join 
   selfdestroy
 */
-     
+
 /* Validation:
   Frontend validation
   Backend validation
@@ -55,13 +55,13 @@ JSON formatida javob qaytaradi.
 
 
 ///////////////////////////////////////////////////////////////////////////////////               
-                         
+
 //Mitask------L
 function reverseSentence(sentence: string): string {
   return sentence
-    .split(" ") 
-    .map(word => word.split("").reverse().join("")) 
-    .join(" "); 
+    .split(" ")
+    .map(word => word.split("").reverse().join(""))
+    .join(" ");
 }
 
 console.log(reverseSentence("we like coding!"));
@@ -69,7 +69,7 @@ console.log(reverseSentence("we like coding!"));
 
 
 
-                   /////////Mitask------M
+/////////Mitask------M
 //M-TASK
 // Shunday function yozing, u raqamlardan tashkil topgan array qabul qilsin va array ichidagi har bir raqam uchun raqamni ozi va hamda osha raqamni kvadratidan tashkil topgan object hosil qilib, hosil bolgan objectlarni array ichida qaytarsin. MASALAN: getSquareNumbers([1, 2, 3]) return [{number: 1, square: 1}, {number: 2, square: 4}, {number: 3, square: 9}].
 
@@ -90,7 +90,7 @@ console.log(getSquareNumbers([1, 2, 3]));
 // Shunday function yozing, u string qabul qilsin va string palindrom yani togri oqilganda ham, orqasidan oqilganda ham bir hil oqiladigan soz ekanligini aniqlab boolean qiymat qaytarsin. MASALAN: palindromCheck("dad") return true; palindromCheck("son") return false.
 
 function palindromCheck(str: string): boolean {
-    return str === str.split("").reverse().join("");
+  return str === str.split("").reverse().join("");
 }
 
 console.log(palindromCheck("dad"));   // true
@@ -113,7 +113,7 @@ function calculateSumOfNumbers(arr: any[]): number {
   return sum;
 }
 
-console.log(calculateSumOfNumbers([10, "10", {son: 10},  true, 35])); //
+console.log(calculateSumOfNumbers([10, "10", { son: 10 }, true, 35])); //
 
 
 ///////////////
@@ -138,11 +138,11 @@ console.log(result2);
 // Q-TASK
 //Q-TASKShunday function yozing, u 2 ta parametrgga ega bolib birinchisi object, ikkinchisi string. Agar string parametr objectni propertysi bolsa true bolmasa false qaytarsin. MASALAN: hasProperty({name: "BMW", model: "M3"}, "model") return true; hasProperty({name: "BMW", model: "M3"}, "year") return false.
 function hasProperty(obj: object, key: string): boolean {
-    return key in obj;
+  return key in obj;
 }
 
-console.log(hasProperty({name: "BMW", model: "M3"}, "model")); // true
-console.log(hasProperty({name: "BMW", model: "M3"}, "year"));  // false
+console.log(hasProperty({ name: "BMW", model: "M3" }, "model")); // true
+console.log(hasProperty({ name: "BMW", model: "M3" }, "year"));  // false
 
 
 ///////////// /R-TASK
@@ -164,14 +164,14 @@ console.log(calculate("1+3"));   // Natija: 4
 
 
 function missingNumber(nums: number[]): number {
-    const n = nums.length;
-    const expectedSum = (n * (n + 1)) / 2;
-    const actualSum = nums.reduce((sum, num) => sum + num, 0);
+  const n = nums.length;
+  const expectedSum = (n * (n + 1)) / 2;
+  const actualSum = nums.reduce((sum, num) => sum + num, 0);
 
-    return expectedSum - actualSum;
+  return expectedSum - actualSum;
 }
 
-console.log(missingNumber([3, 0, 1])); 
+console.log(missingNumber([3, 0, 1]));
 
 ////////////////  T-TASK
 
@@ -202,10 +202,27 @@ console.log(mergeSortedArrays([0, 3, 4, 31], [4, 6, 30]));
 /////U-TASKShunday 
 // function yozing, uni number parametri bolsin va 0 dan berilgan parametrgacha bolgan oraliqdagi faqat toq sonlar nechtaligini return qilsin. MASALAN: sumOdds(9) return 4; sumOdds(11) return 5.
 function sumOdds(n: number): number {
-    let count = 0;
-    for (let i = 1; i <= n; i++) {
-        if (i % 2 !== 0) count++;
-    }
-    return count;
+  let count = 0;
+  for (let i = 1; i <= n; i++) {
+    if (i % 2 !== 0) count++;
+  }
+  return count;
 }
 console.log(sumOdds(9));
+
+///////V-TASKShunday 
+// function yozing, uni string parametri bolsin va stringdagi harf va u harf necha marta takrorlangani sonidan tashkil topgan object qaytarsin. MASALAN: countChars("hello") return {h: 1, e: 1, l: 2, o: 1}.
+
+function countChars(str: string): Record<string, number> {
+  const result: Record<string, number> = {};
+  for (let char of str) {
+    if (result[char]) {
+      result[char]++;
+    } else {
+      result[char] = 1;
+    }
+  }
+  return result;
+}
+
+console.log(countChars("hello")); // { h: 1, e: 1, l: 2, o: 1 }
