@@ -41,6 +41,7 @@ productController.createNewProduct = async (
 ) => {
     try {
         console.log("createNewProduct")
+        console.log("req.body:", req.body) // formadan kelgan datani ko'rsatadi
         if (!req.files?.length) //bu array length 0dan kotta bolishi kerak
             throw new Errors(HttpCode.INTERNAL_SERVER_ERROR, Message.CREATE_FAILED);
 
