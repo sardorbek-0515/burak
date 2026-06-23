@@ -7,6 +7,7 @@ import { AdminRequest } from "../libs/types/member";
 
 
 const productService = new ProductServer
+//const vazifasi: ProductServer tipidagi yangi obyekt yaratadi va uni productService ga saqlaydi. Bu obyekt ProductServer klassining metodlarini ishlatish uchun kerak bo'ladi.
 
 //getAllProducts
 const productController: T = {}; //bosh object yaratadi
@@ -19,40 +20,42 @@ const productController: T = {}; //bosh object yaratadi
 //Define
 productController.getAllProducts = async (req: Request, res: Response) => {
     try {
-        console.log("getAllProducts")
-        const data = await productService.getAllProducts();
+        console.log("getAllProducts")//console.log(req.body) // formadan kelgan datani ko'rsatadi
+        const data = await productService.getAllProducts();//call qilinadigan metod productService obyektida mavjud bo'lgan getAllProducts metodini chaqiradi va uning natijasini data o'zgaruvchisiga saqlaydi. Bu metod barcha mahsulotlarni olish uchun ishlatiladi.
+        console.log("products:", data);
 
-        res.render("products", { products: data});
+        res.render("products", { products: data })
+        //bu products.ejs fayliga products nomi bilan data uzatyapti
     } catch (err) {
-        console.log("Error, getAllProducts:", err);
-        if (err instanceof Errors) res.status(err.code).json(err);
-        else res.status(Errors.standard.code).json(Errors.standard);
+        console.log("Error, getAllProducts:", err);//xatolikni konsolga chiqaradi
+        if (err instanceof Errors) res.status(err.code).json(err); //agar err Errors tipida bo'lsa, err.code bilan statusni o'rnatadi va err ni json formatida yuboradi
+        else res.status(Errors.standard.code).json(Errors.standard);//agar err Errors tipida bo'lmasa, standart xatolikni yuboradi
 
     }
 };
 
 //createNewProduct
 productController.createNewProduct = async (
-    req: AdminRequest, 
+    req: AdminRequest,
     res: Response
 ) => {
     try {
         console.log("createNewProduct")
-        if(!req.files?.length) //bu array length 0dan kotta bolishi kerak
-         throw new Errors(HttpCode.INTERNAL_SERVER_ERROR, Message.CREATE_FAILED );
- 
+        if (!req.files?.length) //bu array length 0dan kotta bolishi kerak
+            throw new Errors(HttpCode.INTERNAL_SERVER_ERROR, Message.CREATE_FAILED);
+
         const data: ProductInput = req.body;
         data.productImages = req.files?.map(ele => {
             return ele.path.replace(/\\/g, "/");
         });
 
         await productService.createNewProduct(data)
-            console.log("data", data)  
+        console.log("data", data)
         res.send(`<script> alert("Sucessful creation!"); window.location.replace('/admin/product/all') </script>`);
     } catch (err) {
         console.log("Error, createNewProduct:", err);
-        const message = err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
-       res.send(`<script> alert("${message}"); window.location.replace('/admin/product/all') </script>`);
+        const message = err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG; //agar err Errors tipida bo'lsa, err.message bilan xatolikni oladi, aks holda standart xatolikni oladi
+        res.send(`<script> alert("${message}"); window.location.replace('/admin/product/all') </script>`);
 
     }
 };
@@ -60,17 +63,17 @@ productController.createNewProduct = async (
 //update
 productController.updateChosenProduct = async (req: Request, res: Response) => {
     try {
-      console.log("updateChosenProduct")
-     const id = req.params.id as string
-    
-      
-      const result = await productService.updateChosenProduct(id, req.body)
+        console.log("updateChosenProduct")
+        const id = req.params.id as string
 
-      res.status(HttpCode.OK).json({ data: result });
+
+        const result = await productService.updateChosenProduct(id, req.body)
+
+        res.status(HttpCode.OK).json({ data: result });
     } catch (err) {
         console.log("Error, updateChosenProduct:", err);
         if (err instanceof Errors) res.status(err.code).json(err)
-        else res .status(Errors.standard.code).json(Errors.standard);
+        else res.status(Errors.standard.code).json(Errors.standard);
 
     }
 };

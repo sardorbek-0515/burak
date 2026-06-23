@@ -14,30 +14,30 @@ class MemberService {
 
     /** SPA */  // React 
 
-    //signup
-    public async signup(input: MemberInput): Promise<Member> {
-        const salt = await bcrypt.genSalt();
-        input.memberPassword = await bcrypt.hash(input.memberPassword, salt);
+    //signu post
+    public async signup(input: MemberInput): Promise<Member> {// bu metod yangi foydalanuvchi yaratish uchun ishlatiladi. input parametri foydalanuvchi ma'lumotlarini o'z ichiga oladi va natijada yangi foydalanuvchi obyekti qaytariladi.
+        const salt = await bcrypt.genSalt();//bCrypt kutubxonasi yordamida parolni xavfsiz saqlash uchun tuz (salt) yaratadi. Bu tuz parolni xesh qilish jarayonida ishlatiladi va parolni yanada xavfsiz qiladi.
+        input.memberPassword = await bcrypt.hash(input.memberPassword, salt);//INPUTdagi foydalanuvchi parolini xesh qiladi va uni input obyektiga qayta tayinlaydi. Bu foydalanuvchi parolini ma'lumotlar bazasida xavfsiz saqlash uchun qilinadi.
 
 
         try {
             const result = await this.memberModel.create(input);
             result.memberPassword = "";
-             return result.toJSON() as Member; // ✅
+            return result.toJSON() as Member; //
         } catch (err) {
             console.error("Error, model:signup", err)
             throw new Errors(HttpCode.BAD_REQUEST, Message.USED_NICK_PHONE);// xatolik shu nickdan, phondan use bolsa
         }
     }
-  
-    //Define
-    //login
-    public async login(input: LoginInput): Promise<Member> {
+
+
+    //login     //Define
+    public async login(input: LoginInput): Promise<Member> {//memberNick va memberPassword ni qabul qiladi va foydalanuvchini tekshiradi. Agar foydalanuvchi topilsa va parol mos kelsa, foydalanuvchi obyekti qaytariladi.
         //TODO: Consider member status later
         const member = await this.memberModel
             .findOne(
-                { memberNick: input.memberNick },
-                {memberNick: 1 , memberPassword: 1}
+                { memberNick: input.memberNick },//memberNick bo'yicha foydalanuvchini topadi
+                { memberNick: 1, memberPassword: 1 }//faqat memberNick va memberPassword ni qaytaradi,  Bu xavfsizlik uchun qilinadi, chunki parolni xesh qilingan shaklda saqlash kerak va boshqa ma'lumotlarni ham qaytarish kerak emas.
             )
             .exec();
         if (!member) throw new Errors(HttpCode.NOT_FOUND, Message.NO_MEMBER_NICK);
@@ -62,7 +62,7 @@ class MemberService {
             .exec();
         if (exist) throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
 
-        const salt = await bcrypt.genSalt();
+        const salt = await bcrypt.genSalt(); //bCrypt kutubxonasi yordamida parolni xavfsiz saqlash uchun tuz (salt) yaratadi. Bu tuz parolni xesh qilish jarayonida ishlatiladi va parolni yanada xavfsiz qiladi.
         input.memberPassword = await bcrypt.hash(input.memberPassword, salt);
 
         try {
@@ -72,14 +72,14 @@ class MemberService {
             throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
         }
     }
-    
+
 
     //processLogin
     public async processLogin(input: LoginInput): Promise<Member> {
         const member = await this.memberModel
             .findOne(
                 { memberNick: input.memberNick },
-                {memberNick:  1, memberPassword: 1}
+                { memberNick: 1, memberPassword: 1 }
             )
             .exec();
         if (!member) throw new Errors(HttpCode.NOT_FOUND, Message.NO_MEMBER_NICK);
@@ -95,26 +95,27 @@ class MemberService {
     //getUsers  /adminka memberlarni malumotini ozgartirish 
     // define, traktor yasash
     public async getUsers(): Promise<Member[]> {
-     const result = await this.memberModel
-     .find({ memberType: MemberType.USER })//member type qiymati user bolganini izla
-     .exec();
-     if(!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+        const result = await this.memberModel
+            .find({ memberType: MemberType.USER })//member type qiymati user bolganini izla/ find-> filter
+            ///users → bu massiv bo‘ladi.Ichida memberType = USER bo‘lgan barcha hujjatlar ro‘yxat ko‘rinishida saqlanadi.
+            .exec();
+        if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
 
-      return result as unknown as Member[];
-       
+        return result as unknown as Member[];
+
     }
-    
-    
 
+
+    //updateChosenUser adminka memberlarni malumotini ozgartirish
     public async updateChosenUser(input: MemberUpdateInput): Promise<Member> {
-     input._id = shapeIntoMongooseObjectId(input._id);
-     const result = await this.memberModel
-     .findByIdAndUpdate({ _id: input._id }, input, {new: true} )
-     .exec();
-     if(!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED);
+        input._id = shapeIntoMongooseObjectId(input._id);
+        const result = await this.memberModel
+            .findByIdAndUpdate({ _id: input._id }, input, { new: true })
+            .exec();
+        if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED);
 
-      return result as unknown as Member;
-       
+        return result as unknown as Member;
+
     }
 }
 

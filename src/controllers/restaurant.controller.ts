@@ -6,36 +6,42 @@ import { MemberType } from "../libs/enums/member.enum";
 import Errors, { HttpCode, Message } from "../libs/Errors";
 
 
-const memberService = new MemberService();
+const memberService = new MemberService(); //
 
 
 const restaurantController: T = {};
+
 //goHome
-restaurantController.goHome = (req: Request, res: Response) => {
-    try {
+restaurantController.goHome = (req: Request, res: Response) => {// bu controller admin panelining home page ni render qiladigan controller //RENDER uzi nima? render bu view ni render qiladi yani home.ejs ni ochadi va unga datani pass qiladi
+    try {  //RENDER uzi nimaga? render bu view ni render qiladi yani home.ejs ni ochadi va unga datani pass qiladi
         console.log("goHome")
         // send, json, redirect, end, render
-        res.render("home"); //send | render| rediret
+        res.render("home"); //send | render| rediret 
+        //RENDER uzi nimaga? render bu view ni render qiladi yani home.ejs ni ochadi va unga datani pass qiladi
+        //res.render("home") — bu view engine (masalan, EJS) orqali home.ejs faylini render qiladi.
+        //👉 Render qilish degani: view faylini HTML qilib hosil qilish va uni brauzerga yuborish.
     } catch (err) {
         console.log("Error, goHome:", err)
-        res.redirect("/admin");
+        res.redirect("/admin");//xatolik bolganda adminga yuboradi
     }
 };
 //getSignup
 restaurantController.getSignup = (req: Request, res: Response) => {
     try {
-        console.log("getSignup")
-        res.render("signup");
+        console.log("getSignup")//
+        res.render("signup");//re
     } catch (err) {
         console.log("Error, getSignup:", err)
         res.redirect("/admin");
     }
 };
-//call
-//getLogin
+
+
+
+//getLogin         //call
 restaurantController.getLogin = (req: Request, res: Response) => {
-    try {
-        console.log("getLogin")
+    try { //render
+        console.log("getLogin") // console.log(req.body) // formadan kelgan datani ko'rsatadi
         res.render("login");
     } catch (err) {
         console.log("Error, getLogin:", err)
@@ -43,13 +49,14 @@ restaurantController.getLogin = (req: Request, res: Response) => {
     }
 };
 
+
 //processSignup
-restaurantController.processSignup = async (req: AdminRequest, res: Response) => {
+restaurantController.processSignup = async (req: AdminRequest, res: Response) => {//
     try {
-        console.log("processSignup")
-        console.log("req.body:", req.body);
+        console.log("processSignup")// console.log(req.body) // formadan kelgan datani ko'rsatadi
+        console.log("req.body:", req.body);// formadan kelgan datani ko'rsatadi
         const file = req.file;
-        if (!file) throw new Errors(HttpCode.BAD_REQUEST, Message.SOMETHING_WENT_WRONG);
+        if (!file) throw new Errors(HttpCode.BAD_REQUEST, Message.SOMETHING_WENT_WRONG);// agar fayl kelmagan bo'lsa, xatolik tashlaydi
 
 
         const newMember: MemberInput = req.body;
@@ -60,7 +67,6 @@ restaurantController.processSignup = async (req: AdminRequest, res: Response) =>
 
         req.session.member = result;
         req.session.save(function () {
-            res.redirect("/admin/product/all");
         });
 
     } catch (err) {
@@ -115,12 +121,12 @@ restaurantController.logout = async (req: AdminRequest, res: Response) => {
 restaurantController.getUsers = async (req: Request, res: Response) => {
     try {
         console.log("getUsers");
-        const result = await memberService.getUsers(); //call = Traktorni haydash(2)
-        console.log("result", result);
+        const result = await memberService.getUsers(); //call qilinadigan metod memberService obyektida mavjud bo'lgan getUsers metodini chaqiradi va uning natijasini result o'zgaruvchisiga saqlaydi. Bu metod barcha foydalanuvchilarni olish uchun ishlatiladi.
+        console.log("result", result);//
 
-        res.render("users", { users: result }); //ejsga userga datani pass qilyabmiz use/result
+        res.render("users", { users: result }); //2 TA ARGUMNET pass  objectni ichida resultni beryabmiz
     } catch (err) {
-        console.log("Error, getUsers:", err);
+        console.log("Error, getUsers:", err); //
         res.redirect("/admin/login"); //xatolik bolganda loginga yubor
     }
 };
@@ -130,14 +136,14 @@ restaurantController.getUsers = async (req: Request, res: Response) => {
 //define
 restaurantController.updateChosenUser = async (req: Request, res: Response) => {
     try {
-        console.log("updateChosenUser");
+        console.log("updateChosenUser");//
         const result = await memberService.updateChosenUser(req.body);
 
-        res.status(HttpCode.OK).json({ data: result });
+        res.status(HttpCode.OK).json({ data: result });//
     } catch (err) {
-        console.log("Error updateChosenUser:", err);
-        if (err instanceof Errors) res.status(err.code).json(err)
-        else res.status(Errors.standard.code).json(Errors.standard);
+        console.log("Error updateChosenUser:", err); //xatolikni konsolga chiqaradi
+        if (err instanceof Errors) res.status(err.code).json(err)//agar err Errors tipida bo'lsa, err.code bilan statusni o'rnatadi va err ni json formatida yuboradi
+        else res.status(Errors.standard.code).json(Errors.standard);//
     }
 };
 
@@ -146,7 +152,7 @@ restaurantController.updateChosenUser = async (req: Request, res: Response) => {
 restaurantController.checkAuthSession = async (req: AdminRequest, res: Response) => {
     try {
         console.log("checkAuthSession")
-        if (req.session?.member)
+        if (req.session?.member) //agar session mavjud bo'lsa member ni tekshir. Ya'ni: foydalanuvchi login qilganmi? 
             res.send(`<script> alert("${req.session.member.memberNick}")</script>`)
         else res.send(`<script> alert("${Message.NOT_AUTHENTICATED}")</script>`);
     } catch (err) {
@@ -154,13 +160,15 @@ restaurantController.checkAuthSession = async (req: AdminRequest, res: Response)
         res.send(err);
     }
 };
+
+
 //verifyRestaurant
 restaurantController.verifyRestaurant = (
     req: AdminRequest,
     res: Response,
     next: NextFunction
 ) => {
-    if (req.session?.member?.memberType === MemberType.RESTAURANT) {
+    if (req.session?.member?.memberType === MemberType.RESTAURANT) { //
         req.member = req.session.member;
         next();
     } else {
