@@ -122,7 +122,7 @@ restaurantController.getUsers = async (req: Request, res: Response) => {
     try {
         console.log("getUsers");
         const result = await memberService.getUsers(); //call qilinadigan metod memberService obyektida mavjud bo'lgan getUsers metodini chaqiradi va uning natijasini result o'zgaruvchisiga saqlaydi. Bu metod barcha foydalanuvchilarni olish uchun ishlatiladi.
-        console.log("result", result);//
+        console.log("result", result);
 
         res.render("users", { users: result }); //2 TA ARGUMNET pass  objectni ichida resultni beryabmiz
     } catch (err) {
