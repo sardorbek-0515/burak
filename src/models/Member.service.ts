@@ -1,7 +1,7 @@
 import MemberModel from "../schema/Member.model";
 import { LoginInput, Member, MemberInput, MemberUpdateInput } from "../libs/types/member";
 import Errors, { HttpCode, Message } from "../libs/Errors";
-import { MemberType } from "../libs/enums/member.enum";
+import { MemberStatus, MemberType } from "../libs/enums/member.enum";
 import * as bcrypt from "bcryptjs";
 import { shapeIntoMongooseObjectId } from "../libs/config";
 
@@ -36,18 +36,24 @@ class MemberService {
         //TODO: Consider member status later
         const member = await this.memberModel
             .findOne(
-                { memberNick: input.memberNick },//memberNick bo'yicha foydalanuvchini topadi
-                { memberNick: 1, memberPassword: 1 }//faqat memberNick va memberPassword ni qaytaradi,  Bu xavfsizlik uchun qilinadi, chunki parolni xesh qilingan shaklda saqlash kerak va boshqa ma'lumotlarni ham qaytarish kerak emas.
+                {
+                    memberNick: input.memberNick,
+                    MemberStatus: { $ne: MemberStatus.DELETE }
+                },//memberNick bo'yicha foydalanuvchini topadi
+                { memberNick: 1, memberPassword: 1 }
             )
             .exec();
         if (!member) throw new Errors(HttpCode.NOT_FOUND, Message.NO_MEMBER_NICK);
+        else if (member.memberStatus === MemberStatus.BLOCK) {
+            throw new Errors(HttpCode.UNAUTHORIZED, Message.BLOCKED_USER);
+        }
 
         const isMatch = await bcrypt.compare(
             input.memberPassword,
             member.memberPassword
         );
         if (!isMatch) {
-            throw new Errors(HttpCode.UNAUTHORIZATED, Message.WRONG_PASSWORD);//match bolmasa: wrong
+            throw new Errors(HttpCode.UNAUTHORIZED, Message.WRONG_PASSWORD);//match bolmasa: wrong
         }
 
         return await this.memberModel.findById(member._id).lean().exec() as Member;
@@ -79,14 +85,20 @@ class MemberService {
         const member = await this.memberModel
             .findOne(
                 { memberNick: input.memberNick },
-                { memberNick: 1, memberPassword: 1 }
+                { memberNick: 1, memberPassword: 1, memberStatus: 1 }
             )
             .exec();
         if (!member) throw new Errors(HttpCode.NOT_FOUND, Message.NO_MEMBER_NICK);
+        else if (member.memberStatus === MemberStatus.BLOCK) {
+            throw new Errors(HttpCode.UNAUTHORIZED, Message.BLOCKED_USER);
+        }
 
-        const isMatch = await bcrypt.compare(input.memberPassword, member.memberPassword);
+        const isMatch = await bcrypt.compare(
+            input.memberPassword,
+            member.memberPassword
+        );
         if (!isMatch) {
-            throw new Errors(HttpCode.UNAUTHORIZATED, Message.WRONG_PASSWORD);
+            throw new Errors(HttpCode.UNAUTHORIZED, Message.WRONG_PASSWORD);
         }
 
         return await this.memberModel.findById(member._id).exec() as Member;

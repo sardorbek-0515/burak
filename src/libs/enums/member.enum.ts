@@ -4,6 +4,6 @@ export enum MemberType {
 }
 export enum MemberStatus {
     ACTIVE = "ACTIVE",
-    RESTAURANT = "BLOCK",
+    BLOCK = "BLOCK",   // ✅
     DELETE = "DELETE",
 }

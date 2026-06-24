@@ -3,22 +3,22 @@ export enum HttpCode {
     CREATED = 201,
     NOT_MODIFIED = 304,
     BAD_REQUEST = 400,
-    UNAUTHORIZATED = 401,
-    FORBIDDIN = 403,
+    UNAUTHORIZED = 401,
+    FORBIDDEN = 403,
     NOT_FOUND = 404,
     INTERNAL_SERVER_ERROR = 500,
 }
 
 export enum Message {
-    SOMETHING_WENT_WRONG = "somthing went wrong!",
-    NO_DATA_FOUND = "no data is found!",
-    CREATE_FAILED = "creating is failed!",
-    UPDATE_FAILED = "updating is failed!",
-
-    USED_NICK_PHONE = "this nickname or phone is already used!",
-    NO_MEMBER_NICK = "no member with this nickname!",
-    WRONG_PASSWORD = "wrong password! please try again!",
-    NOT_AUTHENTICATED = "You are not authenticated, Plase login first!"
+    SOMETHING_WENT_WRONG = "Something went wrong!",
+    NO_DATA_FOUND = "No data is found!",
+    CREATE_FAILED = "Create is failed!",
+    UPDATE_FAILED = "Update is failed!",
+    NO_MEMBER_NICK = "No member with that member nick!",
+    BLOCKED_USER = "You have been blocked, contact restaurant!",
+    USED_NICK_PHONE = "You are inserting alread used nick or phone!",
+    WRONG_PASSWORD = "Wrong password , please try again!",
+    NOT_AUTHENTICATED = "You are not authenticated, Please login first",
 }
 
 class Errors extends Error {
@@ -27,7 +27,7 @@ class Errors extends Error {
 
     static standard = {
         code: HttpCode.INTERNAL_SERVER_ERROR,
-        message: Message.SOMETHING_WENT_WRONG
+        message: Message.SOMETHING_WENT_WRONG,
     };
 
     constructor(statusCode: HttpCode, statusMessage: Message) {
