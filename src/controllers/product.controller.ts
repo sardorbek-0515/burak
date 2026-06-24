@@ -22,7 +22,7 @@ productController.getAllProducts = async (req: Request, res: Response) => {
     try {
         console.log("getAllProducts")//console.log(req.body) // formadan kelgan datani ko'rsatadi
         const data = await productService.getAllProducts();//call qilinadigan metod productService obyektida mavjud bo'lgan getAllProducts metodini chaqiradi va uning natijasini data o'zgaruvchisiga saqlaydi. Bu metod barcha mahsulotlarni olish uchun ishlatiladi.
-        console.log("products:", data);
+        // console.log("products:", data);
 
         res.render("products", { products: data })
         //bu products.ejs fayliga products nomi bilan data uzatyapti
@@ -41,7 +41,7 @@ productController.createNewProduct = async (
 ) => {
     try {
         console.log("createNewProduct")
-        console.log("req.body:", req.body) // formadan kelgan datani ko'rsatadi
+        // console.log("req.body:", req.body) // formadan kelgan datani ko'rsatadi
         if (!req.files?.length) //bu array length 0dan kotta bolishi kerak
             throw new Errors(HttpCode.INTERNAL_SERVER_ERROR, Message.CREATE_FAILED);
 

@@ -69,8 +69,8 @@ function validateForm() {
 
 function previewFileHandler(input, order) {
   const imgClassName = input.className;
-  console.log("input:", input);
-  //   console.log("imgClassName:", imgClassName);
+    console.log("input:", input);
+    console.log("imgClassName:", imgClassName);
 
   const file = $(`.${imgClassName}`).get(0).files[0];
   const fileType = file["type"];

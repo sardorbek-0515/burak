@@ -160,6 +160,7 @@
             <textarea name="productDesc" class="product-desc"></textarea>
           </div>
 
+          <!--img-frame-->
           <div class="img-frame">
             <label>Product Images</label>
             <div class="media-frame">
@@ -171,7 +172,7 @@
                   name="productImages"
                   class="image-one"
                   required
-                  onchange="preivewFileHand (this, 1)"
+                   onchange="previewFileHandler(this, 1)" 
                 />
               </div>
               <div class="upload-img-box">
@@ -181,7 +182,7 @@
                   id="file"
                   name="productImages"
                   class="image-two"
-                  onchange="preivewFileHand (this, 2)"
+                  onchange="previewFileHandler(this, 2)"
 
                 />
               </div>
@@ -192,7 +193,7 @@
                   id="file"
                   name="productImages"
                   class="image-three"
-                  onchange="preivewFileHand (this, 3)"
+                  onchange="previewFileHandler(this, 3)"
 
                 />
               </div>
@@ -203,7 +204,7 @@
                   id="file"
                   name="productImages"
                   class="image-four"
-                  onchange="preivewFileHand (this, 4)"
+                  onchange="previewFileHandler(this, 4)"
                 />
               </div>
               <div class="upload-img-box">
@@ -213,13 +214,13 @@
                   id="file"
                   name="productImages"
                   class="image-five"
-                  onchange="preivewFileHand (this, 5)" 
+                  onchange="previewFileHandler(this, 5)" 
                 />
               </div>
               <input name="restaurantIid" class="restaurant-id" hidden />
             </div>
           </div>
-
+          <!--img-frame-->
           <div class="operation-buttons">
             <button class="btn btn-danger" id="cancel-btn">Cancel</button>
             <button type="submit" class="btn btn-primary" id="create-btn">
