@@ -226,3 +226,19 @@ function countChars(str: string): Record<string, number> {
 }
 
 console.log(countChars("hello")); // { h: 1, e: 1, l: 2, o: 1 }
+
+///// W-TASKShunday 
+// function yozing, uni array va number parametrlari bolsin. Function arrayni numberda berilgan uzunlikda kesib bolaklarga ajratilgan array holatida qaytarsin. MASALAN: chunkArray([1,2,3,4,5,6,7,8,9,10], 3) return [[1,2,3], [4,5,6], [7,8,9], [10]].
+
+function chunkArray(array: any[], size: number): any[][] {
+  const result: any[][] = [];
+
+  for (let i = 0; i < array.length; i += size) {
+    result.push(array.slice(i, i + size));
+  }
+
+  return result;
+}
+
+console.log(chunkArray([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3));
+// [[1,2,3], [4,5,6], [7,8,9], [10]]
