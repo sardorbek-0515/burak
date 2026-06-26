@@ -241,4 +241,33 @@ function chunkArray(array: any[], size: number): any[][] {
 }
 
 console.log(chunkArray([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3));
-// [[1,2,3], [4,5,6], [7,8,9], [10]]
+
+
+////X-TASK
+
+//Shunday function yozing, uni object va string parapetrlari bolsin. Function string parametri object ichida necha marotaba takrorlanganligini qaytarsin (nested object bolsa ham sanasin). MASALAN: countOccurrences({model: 'Bugatti', steer: {model: 'HANKOOK', size: 30}}, 'model') return 2.
+function countOccurrences(obj: any, key: string): number {
+  let count = 0;
+
+  for (const k in obj) {
+    if (k === key) {
+      count++;
+    }
+    if (typeof obj[k] === 'object' && obj[k] !== null) {
+      count += countOccurrences(obj[k], key);
+    }
+  }
+
+  return count;
+}
+
+
+const data = {
+  model: 'Bugatti',
+  steer: {
+    model: 'HANKOOK',
+    size: 30
+  }
+};
+
+console.log(countOccurrences(data, 'model')); 
