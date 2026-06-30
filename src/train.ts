@@ -281,4 +281,22 @@ function findIntersection(arr1: number[], arr2: number[]): number[] {
 }
 
 
-console.log(findIntersection([1, 2, 3], [3, 2, 0])); 
+console.log(findIntersection([1, 2, 3], [3, 2, 0]));
+
+///////////Z-TASK
+
+//Shunday function yozing, uni sonlardan tashkil topgan array qabul qilsin. Function arraydagi juft sonlarni yigindisini qaytarsin. MASALAN: sumEvens([1,2,3]) return 2.
+
+function sumEvens(arr: number[]): number {
+  let sum: number = 0;
+
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] % 2 === 0) {
+      sum += arr[i];
+    }
+  }
+
+  return sum;
+}
+
+console.log(sumEvens([1, 2, 3])); 
