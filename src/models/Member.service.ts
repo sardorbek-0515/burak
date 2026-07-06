@@ -32,7 +32,7 @@ class MemberService {
 
 
     //login     //Define
-    public async login(input: LoginInput): Promise<Member> {//memberNick va memberPassword ni qabul qiladi va foydalanuvchini tekshiradi. Agar foydalanuvchi topilsa va parol mos kelsa, foydalanuvchi obyekti qaytariladi.
+    public async login(input: LoginInput): Promise<Member> {
         //TODO: Consider member status later
         const member = await this.memberModel
             .findOne(

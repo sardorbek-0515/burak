@@ -21,7 +21,10 @@ console.log("__dirname:", __dirname)
 app.use(express.static(path.join(__dirname, "public")))
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); // obect beradi Rest API support
+import cookieParser from "cookie-parser";
+app.use(cookieParser());
 app.use(morgan(MORGAN_FORMAT));
+
 
 /** 2-SESSIONS   **/
 // req. +session > TAMG'A yaratish & TASDIQLASH
