@@ -59,6 +59,19 @@ class MemberService {
         return await this.memberModel.findById(member._id).lean().exec() as Member;
     }
 
+
+    public async getMemberDetail(memberId: string): Promise<Member> {
+        const targetId = shapeIntoMongooseObjectId(memberId);
+        const result = await this.memberModel
+            .findOne({ _id: targetId, memberStatus: MemberStatus.ACTIVE })
+            .lean()
+            .exec();
+
+        if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+
+        return result as Member;
+    }
+
     /** SSR */
 
     //processSignup

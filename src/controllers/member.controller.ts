@@ -67,6 +67,23 @@ memberController.logout = async (req: ExtendedRequest, res: Response) => {
 }
 
 
+memberController.getMemberDetail = async (
+    req: ExtendedRequest,
+    res: Response
+) => {
+    try {
+        console.log("getMemberDetail");
+        if (!req.member?._id) throw new Errors(HttpCode.UNAUTHORIZED, (Message as any).Not_AUTHORIZED || 'Not authorized');
+        const result = await memberService.getMemberDetail(req.member._id.toString());
+
+        res.status(HttpCode.OK).json(result);
+    } catch (err) {
+        console.log("Error, getMemberDetail:", err);
+        if (err instanceof Errors) res.status(err.code).json(err);
+        else res.status(Errors.standard.code).json(Errors.standard);
+    }
+};
+
 
 
 
