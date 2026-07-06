@@ -129,6 +129,9 @@ class MemberService {
         return result as unknown as Member;
 
     }
+    public checkAuth({ memberStatus }: { memberStatus?: MemberStatus }): boolean {
+        return memberStatus !== MemberStatus.BLOCK;
+    }
 }
 
 
