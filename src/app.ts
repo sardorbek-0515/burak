@@ -19,6 +19,7 @@ const store = new MongoDBStore({
 const app = express();
 console.log("__dirname:", __dirname)
 app.use(express.static(path.join(__dirname, "public")))
+app.use("/uploads/", express.static("./uploads")) //uploads papkasini public qilish
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); // obect beradi Rest API support
 import cookieParser from "cookie-parser";
