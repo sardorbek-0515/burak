@@ -89,10 +89,24 @@ class MemberService {
         return result as Member;
     }
 
+    public async getTopUsers(): Promise<Member[]> {
+        const result = await this.memberModel
+            .find({
+                memberStatus: MemberStatus.ACTIVE,
+                memberPoints: { $gte: 1 }//memberPoints 1 dan katta yoki teng bolganlarni topadi
+            }).sort({ memberPoints: -1 })//memberPoints bo'yicha kamayish tartibida saralaydi
+            .limit(4)//top 4 users
+            .exec();
+        if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+
+        return result as unknown as Member[];
+    }
+
     /** SSR */
 
     //processSignup
     public async processSignup(input: MemberInput): Promise<Member> {
+
         const exist = await this.memberModel
             .findOne({ memberType: MemberType.RESTAURANT })
             .exec();
