@@ -14,6 +14,16 @@ class MemberService {
 
     /** SPA */  // React 
 
+    public async getRestaurant(): Promise<Member> {
+        const result = await this.memberModel
+            .findOne({ memberType: MemberType.RESTAURANT })
+            .lean()
+            .exec();
+        if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+
+        return result as Member;
+    }
+
     //signu post
     public async signup(input: MemberInput): Promise<Member> {// bu metod yangi foydalanuvchi yaratish uchun ishlatiladi. input parametri foydalanuvchi ma'lumotlarini o'z ichiga oladi va natijada yangi foydalanuvchi obyekti qaytariladi.
         const salt = await bcrypt.genSalt();//bCrypt kutubxonasi yordamida parolni xavfsiz saqlash uchun tuz (salt) yaratadi. Bu tuz parolni xesh qilish jarayonida ishlatiladi va parolni yanada xavfsiz qiladi.
