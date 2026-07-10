@@ -1,12 +1,13 @@
 import { Types } from "mongoose";
-import { 
-    ProductCollection, 
-    ProductSize, 
-    ProductStatus 
+import {
+    ProductCollection,
+    ProductSize,
+    ProductStatus
 } from "../enums/product.enum";
+import { Member } from "./member";
 
 export interface Product {
-   _id: Types.ObjectId;
+    _id: Types.ObjectId;
     productStatus: ProductStatus;
     productCollection: ProductCollection;
     productName: string;
@@ -17,7 +18,16 @@ export interface Product {
     productDesc?: string;
     productImages: string[];
     productViews: number;
-    
+
+}
+
+export interface ProductInquiry {
+    order: string;
+    page: number;
+    limit: number;
+    productCollection?: ProductCollection;
+    search?: string
+
 }
 
 export interface ProductInput {
@@ -31,11 +41,11 @@ export interface ProductInput {
     productDesc?: string;
     productImages?: string[];
     productViews?: number;
-    
+
 }
 
 export interface ProductUpdateInput {
-     _id: Types.ObjectId;
+    _id: Types.ObjectId;
     productStatus?: ProductStatus;
     productCollection?: ProductCollection;
     productName?: string;
@@ -46,5 +56,5 @@ export interface ProductUpdateInput {
     productDesc?: string;
     productImages?: string[];
     productViews?: number;
-    
+
 }

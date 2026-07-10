@@ -1,29 +1,92 @@
 import { stringify } from "node:querystring";
 import Errors, { HttpCode, Message } from "../libs/Errors";
-import { Product, ProductInput } from "../libs/types/product";
+import { Product, ProductInput, ProductInquiry } from "../libs/types/product";
 import ProductModel from "../schema/Product.model";
 import { shapeIntoMongooseObjectId } from "../libs/config";
+import { ProductStatus } from "../libs/enums/product.enum";
+import { match } from "node:assert/strict";
+import { T } from "../libs/types/comman";
 
 class ProductServer {
   private readonly productModel;
 
   constructor() {
     this.productModel = ProductModel;
-  } 
+  }
 
-  /**  SPA */
+  ///////////////////////**  SPA *///////////////////////
 
-  /**  SRR */
+  ///////// getProducts ///////////
+  public async getProducts(inquiry: ProductInquiry): Promise<Product[]> {
+    const match: T = { productStatus: ProductStatus.PROCESS };
+    //match processda bolgan productlarni olib beryabdi
 
- public async getAllProducts(): Promise<Product[]> {
-    const result = await this.productModel.find().exec();
-    if(!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
-    
+    if (inquiry.productCollection)
+      match.productCollection = inquiry.productCollection;
+    if (inquiry.search) (
+      match.productName = { $regex: new RegExp(inquiry.search, "i") }
+    )
+
+    const sort: T =
+      inquiry.order === "productPrice"
+        ? { [inquiry.order]: 1 } //eng arzonda yuqoruiga qarab
+        : { [inquiry.order]: -1 };
+
+    const result = await this.productModel
+      .aggregate([
+        { $match: match },
+        { $sort: sort },
+        { $skip: (inquiry.page * 1 - 1) * inquiry.limit }, // 3 x 1,2,3
+        //nechtadir malumot otkazish ignor, HECH QANDAY MALUMOTNI SKIP QILMA, boshidan olib ber degani
+        { $limit: inquiry.limit * 1 },// 3 => 4,5,6
+        //bizga boshidan aynan nechta malumot kerak
+      ])
+    //skip  &limit pagenation hosil qiladi
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+
     return result as unknown as Product[];
- }
+  }
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ////////////////////////////////////**  SRR *////////////////////////////
 
   public async createNewProduct(input: ProductInput): Promise<Product> {
     try {
@@ -34,21 +97,21 @@ class ProductServer {
     }
   }
 
- 
- public async updateChosenProduct(
+
+  public async updateChosenProduct(
     id: string,
     input: ProductInput
- ): Promise<Product> {
+  ): Promise<Product> {
     const objId = shapeIntoMongooseObjectId(id);  // yangi o'zgaruvchi
     const result = await this.productModel.findOneAndUpdate(
-        { _id: objId },   // objId ishlatiladi
-        input, 
-        { new: true }
+      { _id: objId },   // objId ishlatiladi
+      input,
+      { new: true }
     ).exec();
-    if(!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED);
-    
+    if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED);
+
     return result as unknown as Product;
- }
+  }
 }
 
 export default ProductServer;

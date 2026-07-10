@@ -2,8 +2,9 @@ import { Request, Response } from "express";
 import Errors, { HttpCode, Message } from "../libs/Errors";
 import { T } from "../libs/types/comman";
 import ProductServer from "../models/Product.service";
-import { ProductInput } from "../libs/types/product";
+import { ProductInput, ProductInquiry } from "../libs/types/product";
 import { AdminRequest } from "../libs/types/member";
+import { ProductCollection } from "../libs/enums/product.enum";
 
 
 const productService = new ProductServer
@@ -11,17 +12,61 @@ const productService = new ProductServer
 
 //getAllProducts
 const productController: T = {}; //bosh object yaratadi
+
+
+
+
+
+
 /**  SPA */
+
+
+productController.getProducts = async (req: Request, res: Response) => {
+    try {
+        console.log("getProducts")
+        const { page, limit, order, productCollection, search } = req.query
+        const inquiry: ProductInquiry = {
+            order: String(order),
+            page: Number(page) as unknown as ProductInquiry["page"],
+            limit: Number(limit) as unknown as ProductInquiry["limit"],
+        } as ProductInquiry;
+        if (productCollection) {
+            inquiry.productCollection = productCollection as ProductCollection
+        }
+        if (search) inquiry.search = String(search);
+
+        const result = await productService.getProducts(inquiry as any);
+
+        res.status(HttpCode.OK).json(result);
+    } catch (err) {
+        console.log("Error, getProducts:", err);
+        if (err instanceof Errors) res.status(err.code).json(err)
+        else res.status(Errors.standard.code).json(Errors.standard);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /**  SRR */
 //adminka loyhasi uchun
 
-//getAllProducts
+////////////////////////////getAllProducts////////////////////////////
 //Define
 productController.getAllProducts = async (req: Request, res: Response) => {
     try {
         console.log("getAllProducts")//console.log(req.body) // formadan kelgan datani ko'rsatadi
-        const data = await productService.getAllProducts();//call qilinadigan metod productService obyektida mavjud bo'lgan getAllProducts metodini chaqiradi va uning natijasini data o'zgaruvchisiga saqlaydi. Bu metod barcha mahsulotlarni olish uchun ishlatiladi.
+        const data = await productService.getProducts(req.query as any);//call qilinadigan metod productService obyektida mavjud bo'lgan getProducts metodini chaqiradi va uning natijasini data o'zgaruvchisiga saqlaydi. Bu metod barcha mahsulotlarni olish uchun ishlatiladi.
         // console.log("products:", data);
 
         res.render("products", { products: data })
@@ -34,7 +79,7 @@ productController.getAllProducts = async (req: Request, res: Response) => {
     }
 };
 
-//createNewProduct
+//////////////////////////  createNewProduct ///////////
 productController.createNewProduct = async (
     req: AdminRequest,
     res: Response
@@ -61,7 +106,7 @@ productController.createNewProduct = async (
     }
 };
 
-//update
+//////////////////////////  update    ///////////////////////////
 productController.updateChosenProduct = async (req: Request, res: Response) => {
     try {
         console.log("updateChosenProduct")
