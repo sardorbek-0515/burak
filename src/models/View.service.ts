@@ -1,9 +1,7 @@
 import ViewModel from "../schema/View.model";
-type ViewInput = {
-    memberId: string;
-    viewRefId: string;
-};
 import Errors, { HttpCode, Message } from "../libs/Errors";
+import { ViewInput } from "../libs/types/view";   // <-- mahalliy type o'rniga, haqiqiysini import qilamiz
+
 class ViewService {
     private readonly viewModel;
 
@@ -11,6 +9,20 @@ class ViewService {
         this.viewModel = ViewModel;
     }
 
+    public async checkViewExistence(input: ViewInput): Promise<any> {
+        return await this.viewModel
+            .findOne({ memberId: input.memberId, viewRefId: input.viewRefId })
+            .exec();
+    }
+
+    public async insertMemberView(input: ViewInput): Promise<any> {
+        try {
+            return await this.viewModel.create(input);
+        } catch (err) {
+            console.log("Error, model:insertMemberView:", err);
+            throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
+        }
+    }
 }
 
 export default ViewService;

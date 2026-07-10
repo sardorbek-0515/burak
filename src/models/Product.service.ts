@@ -1,18 +1,21 @@
-import { stringify } from "node:querystring";
 import Errors, { HttpCode, Message } from "../libs/Errors";
 import { Product, ProductInput, ProductInquiry } from "../libs/types/product";
 import ProductModel from "../schema/Product.model";
 import { shapeIntoMongooseObjectId } from "../libs/config";
 import { ProductStatus } from "../libs/enums/product.enum";
-import { match } from "node:assert/strict";
 import { T } from "../libs/types/comman";
 import { ObjectId } from "mongoose"
+import { ViewGroup } from "../libs/enums/view.enum";
+import { ViewInput } from "../libs/types/view";
+import ViewService from "./View.service";
 
 class ProductServer {
   private readonly productModel;
+  private readonly viewService;
 
   constructor() {
     this.productModel = ProductModel;
+    this.viewService = new ViewService();
   }
 
   ///////////////////////**  SPA *///////////////////////
@@ -20,7 +23,6 @@ class ProductServer {
   ///////// getProducts /////////// Haridorlar loyhasi
   public async getProducts(inquiry: ProductInquiry): Promise<Product[]> {
     const match: T = { productStatus: ProductStatus.PROCESS };
-    //match processda bolgan productlarni olib beryabdi Pause olmaydi
 
     if (inquiry.productCollection)
       match.productCollection = inquiry.productCollection;
@@ -29,78 +31,57 @@ class ProductServer {
     )
 
     const sort: T =
-      inquiry.order === "productPrice" //inquiry.order ni valuesiga qarab pas/tepa,tepa/pasga degan inquary hosil qildik/ eng arzondan yuqoriga qarab
-        ? { [inquiry.order]: 1 } //eng arzonda yuqoruiga qarab
-        : { [inquiry.order]: -1 };// : ixtiyoriyda yuqoridan pasga
+      inquiry.order === "productPrice"
+        ? { [inquiry.order]: 1 }
+        : { [inquiry.order]: -1 };
 
     const result = await this.productModel
       .aggregate([
         { $match: match },
         { $sort: sort },
-        { $skip: (inquiry.page * 1 - 1) * inquiry.limit }, // 3 x 1,2,3
-        //nechtadir malumot otkazish ignor, HECH QANDAY MALUMOTNI SKIP QILMA, boshidan olib ber degani
-        { $limit: inquiry.limit * 1 },// 3 => 4,5,6
-        //bizga boshidan aynan nechta malumot kerak
+        { $skip: (inquiry.page * 1 - 1) * inquiry.limit },
+        { $limit: inquiry.limit * 1 },
       ])
-    //skip  &limit pagenation hosil qiladi
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
 
     return result as unknown as Product[];
   }
 
-  public async getProduct(memberId: ObjectId | null,
-    id: string
+  public async getProduct(
+    memberId: ObjectId | null,
+    id: string,
   ): Promise<Product> {
     const productId = shapeIntoMongooseObjectId(id);
 
-    let result = await this.productModel.findOne({
-      _id: productId,
-      productStatus: ProductStatus.PROCESS
-    })
+    let result = await this.productModel
+      .findOne({ _id: productId, productStatus: ProductStatus.PROCESS })
       .exec();
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
-
-    //TODO: If authenticated user => first => view log creation
-
+    if (memberId) {
+      const input: ViewInput = {
+        memberId: memberId,
+        viewRefId: productId,
+        viewGroup: ViewGroup.PRODUCT,
+      };
+      const existView = await this.viewService.checkViewExistence(input);
+      console.log("exist:", !!existView);
+      if (!existView) {
+        await this.viewService.insertMemberView({
+          ...input,
+          memberId: memberId,
+          viewRefId: productId.toString(),
+        });
+        result = await this.productModel
+          .findByIdAndUpdate(
+            productId,
+            { $inc: { productViews: +1 } },
+            { new: true },
+          )
+          .exec();
+      }
+    }
     return result as unknown as Product;
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   ////////////////////////////////////**  SRR *////////////////////////////
 
@@ -113,14 +94,13 @@ class ProductServer {
     }
   }
 
-
   public async updateChosenProduct(
     id: string,
     input: ProductInput
   ): Promise<Product> {
-    const objId = shapeIntoMongooseObjectId(id);  // yangi o'zgaruvchi
+    const objId = shapeIntoMongooseObjectId(id);
     const result = await this.productModel.findOneAndUpdate(
-      { _id: objId },   // objId ishlatiladi
+      { _id: objId },
       input,
       { new: true }
     ).exec();
