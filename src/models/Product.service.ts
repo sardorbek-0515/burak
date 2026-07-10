@@ -6,6 +6,7 @@ import { shapeIntoMongooseObjectId } from "../libs/config";
 import { ProductStatus } from "../libs/enums/product.enum";
 import { match } from "node:assert/strict";
 import { T } from "../libs/types/comman";
+import { ObjectId } from "mongoose"
 
 class ProductServer {
   private readonly productModel;
@@ -16,10 +17,10 @@ class ProductServer {
 
   ///////////////////////**  SPA *///////////////////////
 
-  ///////// getProducts ///////////
+  ///////// getProducts /////////// Haridorlar loyhasi
   public async getProducts(inquiry: ProductInquiry): Promise<Product[]> {
     const match: T = { productStatus: ProductStatus.PROCESS };
-    //match processda bolgan productlarni olib beryabdi
+    //match processda bolgan productlarni olib beryabdi Pause olmaydi
 
     if (inquiry.productCollection)
       match.productCollection = inquiry.productCollection;
@@ -28,9 +29,9 @@ class ProductServer {
     )
 
     const sort: T =
-      inquiry.order === "productPrice"
+      inquiry.order === "productPrice" //inquiry.order ni valuesiga qarab pas/tepa,tepa/pasga degan inquary hosil qildik/ eng arzondan yuqoriga qarab
         ? { [inquiry.order]: 1 } //eng arzonda yuqoruiga qarab
-        : { [inquiry.order]: -1 };
+        : { [inquiry.order]: -1 };// : ixtiyoriyda yuqoridan pasga
 
     const result = await this.productModel
       .aggregate([
@@ -47,7 +48,22 @@ class ProductServer {
     return result as unknown as Product[];
   }
 
+  public async getProduct(memberId: ObjectId | null,
+    id: string
+  ): Promise<Product> {
+    const productId = shapeIntoMongooseObjectId(id);
 
+    let result = await this.productModel.findOne({
+      _id: productId,
+      productStatus: ProductStatus.PROCESS
+    })
+      .exec();
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+
+    //TODO: If authenticated user => first => view log creation
+
+    return result as unknown as Product;
+  }
 
 
 

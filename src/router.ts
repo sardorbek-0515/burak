@@ -19,15 +19,19 @@ router.get(
 
 router.post(
     "/member/update",
-    memberController.verifyAuth,
+    memberController.verifyAuth,// login bolmagan user
     uploader("members").single("memberImage"), //upoloadsni member folferiga yuklashini va faylni nomini memberImage qilib olishini bildiradi 
     memberController.updateMember//memberni update qilish uchun route    
 );
-
 router.get("/member/top-users", memberController.getTopUsers);
+
 
 /** PRODUCT **/
 router.get("/product/all", productController.getProducts);
+router.get("/product/:id",
+    memberController.retrieveAuth,//agar authacation bolgan bolsa memberni req ga biriktir /login bolmasa ham, kn yuzerga otadi
+    productController.getProduct)
+
 
 /** ORDER **/
 export default router;
