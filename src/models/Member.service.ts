@@ -59,7 +59,7 @@ class MemberService {
         }
 
         const isMatch = await bcrypt.compare(
-            input.memberPassword,
+            input.memberPassword,//
             member.memberPassword
         );
         if (!isMatch) {

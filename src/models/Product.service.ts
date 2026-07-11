@@ -57,21 +57,24 @@ class ProductServer {
       .findOne({ _id: productId, productStatus: ProductStatus.PROCESS })
       .exec();
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
-    if (memberId) {
+
+    if (memberId) { //member producy korganmi
       const input: ViewInput = {
         memberId: memberId,
         viewRefId: productId,
         viewGroup: ViewGroup.PRODUCT,
       };
+
       const existView = await this.viewService.checkViewExistence(input);
-      console.log("exist:", !!existView);
+      console.log("exist:", !!existView); //haa bolsa hech nma qilma
       if (!existView) {
-        await this.viewService.insertMemberView({
+        await this.viewService.insertMemberView({ // yoq bolsa yaratish
           ...input,
           memberId: memberId,
           viewRefId: productId.toString(),
         });
-        result = await this.productModel
+
+        result = await this.productModel //statistika yangilanish
           .findByIdAndUpdate(
             productId,
             { $inc: { productViews: +1 } },
