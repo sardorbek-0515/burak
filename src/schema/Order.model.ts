@@ -4,7 +4,7 @@ import { OrderStatus } from "../libs/enums/order.enum";
 const orderSchema = new Schema({
     orderTotal: {
         type: Number,
-        required: true //required bolishi shart
+        required: true
     },
 
     orderDelivery: {
@@ -12,17 +12,16 @@ const orderSchema = new Schema({
         required: true
     },
 
-    orferStatus: {
+    orderStatus: {
         type: String,
         enum: OrderStatus,
-        dafault: OrderStatus.PAUSE
+        default: OrderStatus.PAUSE
     },
 
     memberId: {
         type: Schema.Types.ObjectId,
         required: true,
-        ref: "Member",  //member.SChemani Member deb olganmiz
-
+        ref: "Member",
     }
 },
     { timestamps: true }
