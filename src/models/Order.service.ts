@@ -5,6 +5,7 @@ import {
     Order,
     OrderInquiry,
     OrderItemInput,
+    OrderUpdateInput,
 } from "../libs/types/order";
 import { shapeIntoMongooseObjectId } from "../libs/config";
 import Errors, { HttpCode, Message } from "../libs/Errors";
@@ -103,33 +104,33 @@ class OrderService {
         return result as unknown as Order[];
     }
 
-    // public async updateOrder(
-    //     member: Member,
-    //     input: OrderUpdateInput,
-    // ): Promise<Order> {
-    //     const memberId = shapeIntoMongooseObjectId(member._id),
-    //         orderId = shapeIntoMongooseObjectId(input.orderId),
-    //         orderStatus = input.orderStatus;
+    public async updateOrder(
+        member: Member,
+        input: OrderUpdateInput,
+    ): Promise<Order> {
+        const memberId = shapeIntoMongooseObjectId(member._id),
+            orderId = shapeIntoMongooseObjectId(input.orderId),
+            orderStatus = input.orderStatus;
 
-    //     const result = await this.orderModel
-    //         .findOneAndUpdate(
-    //             {
-    //                 memberId: memberId,
-    //                 _id: orderId,
-    //             },
-    //             { orderStatus: orderStatus },
-    //             { new: true },
-    //         )
-    //         .exec();
-    //     if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED);
+        const result = await this.orderModel
+            .findOneAndUpdate(
+                {
+                    memberId: memberId,
+                    _id: orderId,
+                },
+                { orderStatus: orderStatus },
+                { new: true },
+            )
+            .exec();
+        if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED);
 
-    //     // agar bizning orderStatusimiz pausedan processga otsa userlarga +1 pointi berishimiz kerak (codi pastgi qatorda)
-    //     if (orderStatus === OrderStatus.PROCESS) {
-    //         // await this.memberService.addUserPoint(member, 1);
-    //     }
+        // agar bizning orderStatusimiz pausedan processga otsa userlarga +1 pointi berishimiz kerak (codi pastgi qatorda)
+        if (orderStatus === OrderStatus.PROCESS) {
+            await this.memberService.addUserPoint(member, 1);
+        }
 
-    //     return result as unknown as Order;
-    // }
+        return result as unknown as Order;
+    }
 }
 
 export default OrderService;

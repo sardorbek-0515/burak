@@ -3,9 +3,8 @@ import { T } from "../libs/types/comman";
 import { Response } from "express";
 import Errors, { HttpCode } from "../libs/Errors";
 import OrderService from "../models/Order.service";
-
+import { OrderInquiry, OrderUpdateInput } from "../libs/types/order";
 import { OrderStatus } from "../libs/enums/order.enum";
-import { OrderInquiry } from "../libs/types/order";
 
 const orderService = new OrderService(); //controllerlar har doim object orqali
 
@@ -43,5 +42,18 @@ orderController.getMyOrders = async (req: ExtendedRequest, res: Response) => {
         else res.status(Errors.standard.code).json(Errors.standard);
     }
 };
-
+/** =================== updateOrder =================== */
+orderController.updateOrder = async (req: ExtendedRequest, res: Response) => {
+    try {
+        console.log("updateOrder");
+        const input: OrderUpdateInput = req.body;
+        const result = await orderService.updateOrder(req.member, input);
+        console.log("input:", input);
+        res.status(HttpCode.CREATED).json(result);
+    } catch (err) {
+        console.log("Error, updateOrder:", err);
+        if (err instanceof Errors) res.status(err.code).json(err);
+        else res.status(Errors.standard.code).json(Errors.standard);
+    }
+};
 export default orderController;
