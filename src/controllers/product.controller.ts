@@ -82,14 +82,12 @@ productController.getProduct = async (req: ExtendedRequest, res: Response) => {
 productController.getAllProducts = async (req: Request, res: Response) => {
     try {
         console.log("getAllProducts")//console.log(req.body) // formadan kelgan datani ko'rsatadi
-        const data = await productService.getProducts(req.query as any);//call qilinadigan metod productService obyektida mavjud bo'lgan getProducts metodini chaqiradi va uning natijasini data o'zgaruvchisiga saqlaydi. Bu metod barcha mahsulotlarni olish uchun ishlatiladi.
-        // console.log("products:", data);
-
+        const data = await productService.getAllProducts()
         res.render("products", { products: data })
         //bu products.ejs fayliga products nomi bilan data uzatyapti
     } catch (err) {
-        console.log("Error, getAllProducts:", err);//xatolikni konsolga chiqaradi
-        if (err instanceof Errors) res.status(err.code).json(err); //agar err Errors tipida bo'lsa, err.code bilan statusni o'rnatadi va err ni json formatida yuboradi
+        console.log("Error, getAllProducts:", err);
+        if (err instanceof Errors) res.status(err.code).json(err);
         else res.status(Errors.standard.code).json(Errors.standard);//agar err Errors tipida bo'lmasa, standart xatolikni yuboradi
 
     }
