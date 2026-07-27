@@ -112,22 +112,29 @@ class MemberService {
         return result as unknown as Member[];
     }
 
-    public async addUserPoint(member: Member, point: number): Promise<Member> {
-        const memberId = shapeIntoMongooseObjectId(member._id);
+    public async addUserPoint(
+        member: Member, // qaysi userga point qo'shiladi
+        point: number, // nechta point qo'shiladi
+    ): Promise<Member> {
+
+        const memberId = shapeIntoMongooseObjectId(member._id); // member id ni ObjectId ga o'tkazadi
 
         return await this.memberModel
             .findOneAndUpdate(
                 {
-                    _id: memberId,
-                    memberType: MemberType.USER,
-                    memberStatus: MemberStatus.ACTIVE,
+                    _id: memberId, // shu userni topadi
+                    memberType: MemberType.USER, // faqat USER bo'lishi kerak
+                    memberStatus: MemberStatus.ACTIVE, // faqat ACTIVE user bo'lishi kerak
                 },
-                { $inc: { memberPoints: point } },
-                { new: true }
+                {
+                    $inc: { memberPoints: point }, // pointni qo'shadi
+                },
+                {
+                    new: true, // yangilangan userni qaytaradi
+                }
             )
             .exec() as unknown as Member;
     }
-
     /** SSR */
 
     //processSignup

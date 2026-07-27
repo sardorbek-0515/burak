@@ -24,36 +24,53 @@ orderController.createOrder = async (req: ExtendedRequest, res: Response) => {
 /** =================== getMyOrders =================== */
 orderController.getMyOrders = async (req: ExtendedRequest, res: Response) => {
     try {
-        console.log("getMyOrders");
-        const { page, limit, orderStatus } = req.query;
-        console.log("req.query:", req.query);
-        const inquiry: OrderInquiry = {
-            page: Number(page),
-            limit: Number(limit),
-            orderStatus: orderStatus as OrderStatus,
-        };
-        console.log("inquiry:", inquiry);
-        const result = await orderService.getMyOrders(req.member, inquiry);
+        console.log("getMyOrders"); // method ishlaganini tekshiradi
 
-        res.status(HttpCode.CREATED).json(result);
+        const { page, limit, orderStatus } = req.query; // frontend yuborgan querylarni oladi
+
+        console.log("req.query:", req.query); // querylarni terminalga chiqaradi
+
+        const inquiry: OrderInquiry = {
+            page: Number(page), // page ni numberga o'tkazadi
+            limit: Number(limit), // limit ni numberga o'tkazadi
+            orderStatus: orderStatus as OrderStatus, // statusni OrderStatus typeiga o'tkazadi
+        };
+
+        console.log("inquiry:", inquiry); // tayyor bo'lgan inquiry objectini chiqaradi
+
+        const result = await orderService.getMyOrders(req.member, inquiry); // serviceni chaqirib orderlarni oladi
+
+        res.status(HttpCode.CREATED).json(result); // frontendga orderlarni qaytaradi
+
     } catch (err) {
-        console.log("Error, getMyOrders:", err);
-        if (err instanceof Errors) res.status(err.code).json(err);
-        else res.status(Errors.standard.code).json(Errors.standard);
+        console.log("Error, getMyOrders:", err); // xatoni chiqaradi
+
+        if (err instanceof Errors)
+            res.status(err.code).json(err); // custom error bo'lsa qaytaradi
+        else
+            res.status(Errors.standard.code).json(Errors.standard); // oddiy xato bo'lsa standard error qaytaradi
     }
 };
 /** =================== updateOrder =================== */
 orderController.updateOrder = async (req: ExtendedRequest, res: Response) => {
     try {
-        console.log("updateOrder");
-        const input: OrderUpdateInput = req.body;
-        const result = await orderService.updateOrder(req.member, input);
-        console.log("input:", input);
-        res.status(HttpCode.CREATED).json(result);
+        console.log("updateOrder"); // method ishlaganini tekshiradi
+
+        const input: OrderUpdateInput = req.body; // frontend yuborgan ma'lumotni oladi
+
+        const result = await orderService.updateOrder(req.member, input); // serviceni chaqiradi
+
+        console.log("input:", input); // kelgan ma'lumotni chiqaradi
+
+        res.status(HttpCode.CREATED).json(result); // yangilangan orderni frontendga yuboradi
+
     } catch (err) {
-        console.log("Error, updateOrder:", err);
-        if (err instanceof Errors) res.status(err.code).json(err);
-        else res.status(Errors.standard.code).json(Errors.standard);
+        console.log("Error, updateOrder:", err); // xatoni chiqaradi
+
+        if (err instanceof Errors)
+            res.status(err.code).json(err); // custom error bo'lsa
+        else
+            res.status(Errors.standard.code).json(Errors.standard); // oddiy error bo'lsa
     }
 };
 export default orderController;

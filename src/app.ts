@@ -1,3 +1,4 @@
+import cors from "cors";
 import express from "express";
 import path from "path";
 import router from "./router";
@@ -22,6 +23,10 @@ app.use(express.static(path.join(__dirname, "public")))
 app.use("/uploads/", express.static("./uploads")) //uploads papkasini public qilish
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); // obect beradi Rest API support
+app.use(cors({
+  credentials: true,
+  origin: true
+}));
 import cookieParser from "cookie-parser";
 app.use(cookieParser());
 app.use(morgan(MORGAN_FORMAT));
