@@ -25,10 +25,9 @@ class MemberService {
     }
 
     //signu post
-    public async signup(input: MemberInput): Promise<Member> {// bu metod yangi foydalanuvchi yaratish uchun ishlatiladi. input parametri foydalanuvchi ma'lumotlarini o'z ichiga oladi va natijada yangi foydalanuvchi obyekti qaytariladi.
-        const salt = await bcrypt.genSalt();//bCrypt kutubxonasi yordamida parolni xavfsiz saqlash uchun tuz (salt) yaratadi. Bu tuz parolni xesh qilish jarayonida ishlatiladi va parolni yanada xavfsiz qiladi.
-        input.memberPassword = await bcrypt.hash(input.memberPassword, salt);//INPUTdagi foydalanuvchi parolini xesh qiladi va uni input obyektiga qayta tayinlaydi. Bu foydalanuvchi parolini ma'lumotlar bazasida xavfsiz saqlash uchun qilinadi.
-
+    public async signup(input: MemberInput): Promise<Member> {
+        const salt = await bcrypt.genSalt();
+        input.memberPassword = await bcrypt.hash(input.memberPassword, salt);
 
         try {
             const result = await this.memberModel.create(input);

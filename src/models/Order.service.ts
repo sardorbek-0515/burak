@@ -94,7 +94,7 @@ class OrderService {
             .aggregate([
                 { $match: matches }, // shu foydalanuvchining orderlarini topadi
 
-                { $sort: { updateAt: -1 } }, // oxirgi yangilangani tepada chiqadi
+                { $sort: { updatedAt: -1 } }, // oxirgi yangilangani tepada chiqadi
 
                 { $skip: (inquiry.page - 1) * inquiry.limit }, // nechta tashlab o'tishni hisoblaydi
 

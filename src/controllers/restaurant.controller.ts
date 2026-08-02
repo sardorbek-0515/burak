@@ -16,10 +16,7 @@ restaurantController.goHome = (req: Request, res: Response) => {// bu controller
     try {  //RENDER uzi nimaga? render bu view ni render qiladi yani home.ejs ni ochadi va unga datani pass qiladi
         console.log("goHome")
         // send, json, redirect, end, render
-        res.render("home"); //send | render| rediret 
-        //RENDER uzi nimaga? render bu view ni render qiladi yani home.ejs ni ochadi va unga datani pass qiladi
-        //res.render("home") — bu view engine (masalan, EJS) orqali home.ejs faylini render qiladi.
-        //👉 Render qilish degani: view faylini HTML qilib hosil qilish va uni brauzerga yuborish.
+        res.render("home");
     } catch (err) {
         console.log("Error, goHome:", err)
         res.redirect("/admin");//xatolik bolganda adminga yuboradi
@@ -67,6 +64,7 @@ restaurantController.processSignup = async (req: AdminRequest, res: Response) =>
 
         req.session.member = result;
         req.session.save(function () {
+            res.redirect("/admin/product/all");
         });
 
     } catch (err) {

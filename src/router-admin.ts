@@ -25,7 +25,7 @@ routerAdmin
   .get("/signup", restaurantController.getSignup)            //Traditional API  
   .post(
     "/signup",
-    makeUploader("members").single("memberImage"),//  makeUploader funksiyasi, "members" papkasiga faylni saqlash uchun sozlangan uploader yaratadi. single("memberImage") esa, formadan kelgan "memberImage" nomli faylni qabul qilish uchun ishlatiladi. Bu middleware, faylni qabul qiladi va uni belgilangan papkaga saqlaydi, so'ngra faylga oid ma'lumotlarni req.file obyektiga qo'shadi.         
+    makeUploader("members").single("memberImage"),
     restaurantController.processSignup,
   );
 
